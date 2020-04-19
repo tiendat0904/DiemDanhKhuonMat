@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppTheme.Yellow_700" parent="AppTheme.Base">
+        <item name="colorPrimary">@color/md_yellow_700</item>
+        <item name="colorPrimaryDark">@color/md_yellow_700_dark</item>
+        <item name="colorAccent">@color/md_yellow_700</item>
+        <item name="actionBarTheme">@style/DarkActionBarItems</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:textColorPrimary">@color/theme_dark_background_color</item>
+    </style>
+</resources>

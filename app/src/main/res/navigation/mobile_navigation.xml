@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_AlterPass">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.attendance.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_Attendance"
+        android:name="com.example.attendance.ui.gallery.GalleryFragment"
+        android:label="@string/menu_Attendance"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_Calendar"
+        android:name="com.example.attendance.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_Calendar"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_statistic"
+        android:name="com.example.attendance.ui.tools.ToolsFragment"
+        android:label="@string/menu_statistic"
+        tools:layout="@layout/fragment_tools" />
+
+    <fragment
+        android:id="@+id/nav_Information"
+        android:name="com.example.attendance.ui.share.ShareFragment"
+        android:label="@string/menu_Information"
+        tools:layout="@layout/fragment_share" />
+
+    <fragment
+        android:id="@+id/nav_AlterPass"
+        android:name="com.example.attendance.ui.send.SendFragment"
+        android:label="@string/menu_AlterPass"
+        tools:layout="@layout/fragment_send" />
+
+</navigation>
