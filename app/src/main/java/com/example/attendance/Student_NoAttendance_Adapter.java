@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,16 +35,7 @@ public class Student_NoAttendance_Adapter extends RecyclerView.Adapter<Student_N
         holder.txt_msv.setText(list_student_noattendance.get(position).getMsv());
         holder.txt_hoten.setText(list_student_noattendance.get(position).getHoTen());
         holder.txt_monhoc.setText(list_student_noattendance.get(position).getMonhoc());
-        holder.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(holder.checkBox.isChecked())
-                {
-//                    notifyItemRemoved(position);
-//                    list_student_noattendance.remove(position);
-                }
-            }
-        });
+        holder.checkBox.setChecked(list_student_noattendance.get(position).isDiHoc());
     }
 
     @Override
@@ -60,6 +52,12 @@ public class Student_NoAttendance_Adapter extends RecyclerView.Adapter<Student_N
             txt_hoten = (TextView)itemView.findViewById(R.id.tv_tensv);
             txt_monhoc = (TextView)itemView.findViewById(R.id.tv_monhoc);
             checkBox = (CheckBox)itemView.findViewById(R.id.checkBox);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    list_student_noattendance.get(getAdapterPosition()).setDiHoc(b);
+                }
+            });
         }
     }
 }

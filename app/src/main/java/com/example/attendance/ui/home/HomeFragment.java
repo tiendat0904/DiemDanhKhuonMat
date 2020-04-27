@@ -1,11 +1,13 @@
 package com.example.attendance.ui.home;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.attendance.Add_Lesson;
 import com.example.attendance.DataShop;
 import com.example.attendance.R;
 import com.example.attendance.ShopAdapter;
@@ -33,7 +36,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private RecyclerView recyclerView;
     private CalendarView cld;
-
+    Button btn_themlichday;
     public static ArrayList<Student> list_student_diemdanh;
     public static ArrayList<Student> list_student_chuadiemdanh;
 
@@ -44,19 +47,25 @@ public class HomeFragment extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_home, container, false);
         //final TextView textView = root.findViewById(R.id.text_home);
         recyclerView = root.findViewById(R.id.listTB);
-        final CalendarView cld = root.findViewById(R.id.Cld);
+        cld = root.findViewById(R.id.Cld);
         // Bắt đầu đưa dữ liệu vào
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL,false);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL);
-        Drawable drawable = ContextCompat.getDrawable(getActivity(),R.drawable.divider_custom);
-        dividerItemDecoration.setDrawable(drawable);
         recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(getContext(),R.drawable.divider_custom);
+        dividerItemDecoration.setDrawable(drawable);
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
 //        recyclerView.setItemAnimator;
+        btn_themlichday=(Button)root.findViewById(R.id.button_themlich);
+        btn_themlichday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Add_Lesson.class);
+                startActivity(intent);
+            }
+        });
 
         cld.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

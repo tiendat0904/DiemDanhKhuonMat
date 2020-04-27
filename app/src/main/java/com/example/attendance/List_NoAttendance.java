@@ -2,11 +2,14 @@ package com.example.attendance;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +26,7 @@ public class List_NoAttendance extends AppCompatActivity {
     androidx.appcompat.widget.Toolbar toolbar_diemdanh;
     Student_NoAttendance_Adapter mStudent;
     ArrayList<Student> list_no_attendance = new ArrayList<>();
-    RecyclerView recyclerView2;
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,24 +44,30 @@ public class List_NoAttendance extends AppCompatActivity {
             }
         }
 
-        recyclerView2 = (RecyclerView)findViewById(R.id.recyclerview2);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView2.setHasFixedSize(true);
-        recyclerView2.setLayoutManager(mLayoutManager);
-        recyclerView2.setItemAnimator(new DefaultItemAnimator());
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerview2);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL);
+        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.divider_custom);
+        dividerItemDecoration.setDrawable(drawable);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         mStudent = new Student_NoAttendance_Adapter(list_no_attendance,List_NoAttendance.this);
        // mStudent.notifyDataSetChanged();
-        recyclerView2.setAdapter(mStudent);
+        recyclerView.setAdapter(mStudent);
         toolbar_diemdanh.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent = new Intent(List_NoAttendance.this,List_Attendance.class);
+                startActivity(intent);
             }
         });
         btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(List_NoAttendance.this,Attendance_Success.class);
+//                intent.putExtra("songuoikhongdihoc",khongdihoc);
                 startActivity(intent);
             }
         });
