@@ -1,67 +1,61 @@
 package com.example.attendance;
 
+import android.icu.text.TimeZoneFormat;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 public class SubjectClass {
-    private int SubjectClassID;
-    private String SubjectClassName;
-    private Date StartDate;
-    private Date EndDate;
+    @SerializedName("body")
+    private int subjectClassID;
+    private String subjectClassName;
+    private String startDate;
+    private String endDate;
     private int status;
-    private int SubjectID;
+    private int subjectID;
 
     public SubjectClass(int subjectClassID, String subjectClassName, int status, int subjectID) {
-        this.SubjectClassID = subjectClassID;
-        this.SubjectClassName = subjectClassName;
+        this.subjectClassID = subjectClassID;
+        this.subjectClassName = subjectClassName;
         this.status = status;
-        this.SubjectID = subjectID;
+        this.subjectID = subjectID;
     }
+
+
 
     public int getSubjectClassID() {
-        return SubjectClassID;
-    }
-
-    public void setSubjectClassID(int subjectClassID) {
-        SubjectClassID = subjectClassID;
+        return subjectClassID;
     }
 
     public String getSubjectClassName() {
-        return SubjectClassName;
+        return subjectClassName;
     }
 
-    public void setSubjectClassName(String subjectClassName) {
-        SubjectClassName = subjectClassName;
+    public String getStartDate() {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
+        LocalDate date = LocalDate.parse(startDate.toString(), inputFormatter);
+        String formattedDate = outputFormatter.format(date);
+        return formattedDate;
     }
 
-    public Date getStartDate() {
-        return StartDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        StartDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return EndDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        EndDate = endDate;
+    public String getEndDate() {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
+        LocalDate date = LocalDate.parse(endDate.toString(), inputFormatter);
+        String formattedDate = outputFormatter.format(date);
+        return formattedDate;
     }
 
     public int getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public int getSubjectID() {
-        return SubjectID;
-    }
-
-    public void setSubjectID(int subjectID) {
-        SubjectID = subjectID;
+        return subjectID;
     }
 }

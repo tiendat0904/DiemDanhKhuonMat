@@ -38,11 +38,11 @@ public class List_NoAttendance extends AppCompatActivity {
 
 
 
-        for (Student student : MainActivity.list_student_danhsachdauvao){
-            if (!student.isDiHoc()){
-                list_no_attendance.add(student);
-            }
-        }
+//        for (Student student : MainActivity.list_student_danhsachdauvao){
+//            if (!student.isDiHoc()){
+//                list_no_attendance.add(student);
+//            }
+//        }
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview2);
         recyclerView.setHasFixedSize(true);

@@ -32,10 +32,10 @@ public class Student_NoAttendance_Adapter extends RecyclerView.Adapter<Student_N
 
     @Override
     public void onBindViewHolder(@NonNull final Student_NoAttendance_Adapter.ViewHolder holder, final int position) {
-        holder.txt_msv.setText(list_student_noattendance.get(position).getMsv());
+        holder.txt_msv.setText(list_student_noattendance.get(position).getStudentID());
         holder.txt_hoten.setText(list_student_noattendance.get(position).getHoTen());
-        holder.txt_monhoc.setText(list_student_noattendance.get(position).getMonhoc());
-        holder.checkBox.setChecked(list_student_noattendance.get(position).isDiHoc());
+        holder.txt_monhoc.setText(list_student_noattendance.get(position).getClassName());
+        //holder.checkBox.setChecked(list_student_noattendance.get(position).isDiHoc());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Student_NoAttendance_Adapter extends RecyclerView.Adapter<Student_N
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    list_student_noattendance.get(getAdapterPosition()).setDiHoc(b);
+                   // list_student_noattendance.get(getAdapterPosition()).setDiHoc(b);
                 }
             });
         }

@@ -1,44 +1,38 @@
 package com.example.attendance;
 
 public class Student {
-    private String Msv,HoTen,Monhoc;
-    private boolean isDiHoc;
+    private String studentID;
+    private String hoTen;
+    private String className;
 
-    public Student(String msv, String hoTen, String monhoc) {
-        Msv = msv;
-        HoTen = hoTen;
-        Monhoc = monhoc;
+    public String getStudentID() {
+        return studentID;
     }
 
-    public String getMsv() {
-        return Msv;
-    }
-
-    public void setMsv(String msv) {
-        Msv = msv;
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
     }
 
     public String getHoTen() {
-        return HoTen;
+        return hoTen;
     }
 
     public void setHoTen(String hoTen) {
-        HoTen = hoTen;
+        this.hoTen = hoTen;
     }
 
-    public String getMonhoc() {
-        return Monhoc;
+    public String getClassName() {
+        return className;
     }
 
-    public void setMonhoc(String monhoc) {
-        Monhoc = monhoc;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
-    public boolean isDiHoc() {
-        return isDiHoc;
-    }
-
-    public void setDiHoc(boolean diHoc) {
-        isDiHoc = diHoc;
+    public Student(String studentID, String hoTen, String className) {
+        this.studentID = studentID;
+        this.hoTen = hoTen;
+        this.className = className;
     }
 }
+

@@ -26,7 +26,7 @@ public class DiemDanh extends AppCompatActivity {
     androidx.appcompat.widget.Toolbar toolbar_diemdanh;
     Button btn_diemdanh_AI,btn_diemdanh;
 
-    TextView txt_start1,txt_finish1,txt_classroom1,txt_MonHoc1;
+    TextView txt_start1,txt_finish1,txt_classroom1,txt_MonHoc1,txt_giangvien;
     ImageView anh;
     static final int REQUEST_ID_IMAGE_CAPTURE = 100;
     @Override
@@ -40,15 +40,18 @@ public class DiemDanh extends AppCompatActivity {
         txt_start1 = (TextView)findViewById(R.id.tv_start1);
         txt_finish1=(TextView)findViewById(R.id.tv_finish1);
         txt_classroom1 = (TextView)findViewById(R.id.tv_classroom1);
+        txt_giangvien = (TextView)findViewById(R.id.txt_giangvien);
+
         txt_MonHoc1 = (TextView)findViewById(R.id.tv_subject);
 
         Bundle extras = getIntent().getExtras();
         if(extras!= null)
         {
-            txt_start1.setText(extras.getString("start"));
-            txt_finish1.setText(extras.getString("finish"));
-            txt_classroom1.setText(extras.getString("classroom"));
-            txt_MonHoc1.setText(extras.getString("subject"));
+            txt_start1.setText(extras.getString("sujectclass"));
+            txt_finish1.setText(extras.getString("datetime"));
+            txt_classroom1.setText(extras.getString("shift"));
+            txt_giangvien.setText(extras.getString("eventID"));
+
         }
         setSupportActionBar(toolbar_diemdanh);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -62,6 +65,8 @@ public class DiemDanh extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DiemDanh.this,List_Attendance.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("eventID", txt_giangvien.getText().toString());
                 startActivity(intent);
             }
         });

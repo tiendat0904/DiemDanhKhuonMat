@@ -13,15 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.attendance.Model.Event_Details;
 import com.example.attendance.monthCalendar;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
-    ArrayList<DataShop> dataShops;
+    ArrayList<Event_Details> dataShops;
     Context context;
 
-    public ShopAdapter(ArrayList<DataShop> dataShops, Context context) {
+    public ShopAdapter(ArrayList<Event_Details> dataShops, Context context) {
         this.dataShops = dataShops;
         this.context = context;
     }
@@ -36,10 +38,21 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txt_start.setText(dataShops.get(position).getTxt1());
-        holder.txt_finish.setText(dataShops.get(position).getTxt2());
-        holder.txt_classroom.setText(dataShops.get(position).getTxt3());
-        holder.txt_MonHoc.setText(dataShops.get(position).getTxtMonHoc());
+        holder.txt_sujectclass.setText(dataShops.get(position).getSubjectClassName());
+        holder.txt_datetime.setText(dataShops.get(position).getDateTime1());
+        holder.txt_shift.setText(dataShops.get(position).getShiftName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,DiemDanh.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("sujectclass", holder.txt_sujectclass.getText().toString());
+                intent.putExtra("datetime", holder.txt_datetime.getText().toString());
+                intent.putExtra("shift", holder.txt_shift.getText().toString());
+                intent.putExtra("eventID",dataShops.get(position).getEventID());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -47,32 +60,19 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         return dataShops.size();
     }
     public void RemoveItems(int position){
-        dataShops.remove(position);
-        notifyItemRemoved(position);
+//        dataShops.remove(position);
+//        notifyItemRemoved(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView txt_start,txt_finish,txt_classroom,txt_MonHoc;
-        Button btn_diemdanh;
+        TextView txt_sujectclass,txt_datetime,txt_shift;
         public ViewHolder(final View itemView){
             super(itemView);
-            txt_start = (TextView)itemView.findViewById(R.id.tv_start);
-            txt_finish = (TextView)itemView.findViewById(R.id.tv_finish);
-            txt_classroom = (TextView)itemView.findViewById(R.id.tv_classroom);
-            txt_MonHoc = (TextView)itemView.findViewById(R.id.monHocCustom);
+            txt_sujectclass = (TextView)itemView.findViewById(R.id.lophocphan);
+            txt_datetime = (TextView)itemView.findViewById(R.id.tv_ngayhoc);
+            txt_shift = (TextView)itemView.findViewById(R.id.tv_ca);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-               @Override
-                public void onClick(View view) {
-                   Intent intent = new Intent(context,DiemDanh.class);
-                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("start",txt_start.getText().toString());
-                    intent.putExtra("finish",txt_finish.getText().toString());
-                    intent.putExtra("classroom",txt_classroom.getText().toString());
-                    intent.putExtra("subject",txt_MonHoc.getText().toString());
-                   context.startActivity(intent);
-               }
-          });
+
         }
     }
 }

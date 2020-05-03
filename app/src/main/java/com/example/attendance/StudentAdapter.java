@@ -35,10 +35,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final StudentAdapter.ViewHolder holder, final int position) {
-        holder.txt_msv.setText(list_student.get(position).getMsv());
+        holder.txt_msv.setText(list_student.get(position).getStudentID());
         holder.txt_hoten.setText(list_student.get(position).getHoTen());
-        holder.txt_monhoc.setText(list_student.get(position).getMonhoc());
-        holder.checkBox.setChecked(list_student.get(position).isDiHoc());
+        holder.txt_monhoc.setText(list_student.get(position).getClassName());
+//        holder.checkBox.setChecked(list_student.get(position).isDiHoc());
     }
 
     @Override
@@ -55,14 +55,14 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
             txt_msv = (TextView)itemView.findViewById(R.id.tv_msv);
             txt_hoten = (TextView)itemView.findViewById(R.id.tv_tensv);
             txt_monhoc = (TextView)itemView.findViewById(R.id.tv_monhoc);
-            checkBox = (CheckBox)itemView.findViewById(R.id.checkBox);
+            //checkBox = (CheckBox)itemView.findViewById(R.id.checkBox);
 
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    list_student.get(getAdapterPosition()).setDiHoc(b);
-                }
-            });
+//            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                    //list_student.get(getAdapterPosition()).setDiHoc(b);
+//                }
+//            });
         }
     }
 }

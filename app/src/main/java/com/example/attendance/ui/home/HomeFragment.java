@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,14 +25,28 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.attendance.APIService;
 import com.example.attendance.Add_Lesson;
 import com.example.attendance.DataShop;
+import com.example.attendance.Model.Event_Details;
 import com.example.attendance.R;
 import com.example.attendance.ShopAdapter;
 import com.example.attendance.Student;
+import com.example.attendance.SubjectClass;
+import com.example.attendance.UnsafeOkHttpClient;
 import com.example.attendance.monthCalendar;
+import com.example.attendance.ui.Event_details;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
 
@@ -37,6 +54,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private CalendarView cld;
     Button btn_themlichday;
+    ArrayList<String> list_event_details;
+    TextView t;
     public static ArrayList<Student> list_student_diemdanh;
     public static ArrayList<Student> list_student_chuadiemdanh;
 
@@ -48,6 +67,7 @@ public class HomeFragment extends Fragment {
         //final TextView textView = root.findViewById(R.id.text_home);
         recyclerView = root.findViewById(R.id.listTB);
         cld = root.findViewById(R.id.Cld);
+        t = root.findViewById(R.id.test);
         // Bắt đầu đưa dữ liệu vào
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL,false);
@@ -57,7 +77,7 @@ public class HomeFragment extends Fragment {
         dividerItemDecoration.setDrawable(drawable);
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setItemAnimator;
+        getDate();
         btn_themlichday=(Button)root.findViewById(R.id.button_themlich);
         btn_themlichday.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,46 +86,59 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        cld.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-//                Toast.makeText(getActivity(), ""+i2, Toast.LENGTH_SHORT).show();
-                recyclerView.setAdapter(null);
-
-                if(i2 == 15){
-                    ArrayList<DataShop> arrayList = new ArrayList<>();
-                    arrayList.add(new DataShop("09:30AM","12AM","103-A2","ATBMTT"));
-                    arrayList.add(new DataShop("13 PM","15:30 PM","102-A2","Web"));
-                    arrayList.add(new DataShop("15:30 PM","18:00 PM","102-A2","LTM"));
-                    ShopAdapter shopAdapter = new ShopAdapter(arrayList,getActivity());
-                    recyclerView.setAdapter(shopAdapter);
-                }
-                if(i2 == 13){
-                    ArrayList<DataShop> arrayList = new ArrayList<>();
-                    arrayList.add(new DataShop("sk ngày 13","sk ngày 13","sk ngày 13","sk ngày 15"));
-                    ShopAdapter shopAdapter = new ShopAdapter(arrayList,getActivity());
-                    recyclerView.setAdapter(shopAdapter);
-                }
-                if(i2 == 20){
-                    ArrayList<DataShop> arrayList = new ArrayList<>();
-                    arrayList.add(new DataShop("sk ngày 20","sk ngày 20","sk ngày 20","sk ngày 15"));
-                    ShopAdapter shopAdapter = new ShopAdapter(arrayList,getActivity());
-                    recyclerView.setAdapter(shopAdapter);
-                }
-            }
-        });
-
-
-
-
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
-
-            }
-        });
         return root;
+    }
+
+    private void getDate() {
+        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.3.2:64535/api/Events/").client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        list_event_details=new ArrayList<>();
+        Event_details class_Service =retrofit.create(Event_details.class);
+        Call<List<Event_Details>> call = class_Service.getEvent_Details();
+        call.enqueue(new Callback<List<Event_Details>>() {
+            @Override
+            public void onResponse(Call<List<Event_Details>> call, Response<List<Event_Details>> response) {
+                if(!response.isSuccessful()){
+                    try {
+                        Log.d("aaa", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
+                List<Event_Details> event_details = response.body();
+                cld.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
+
+                        recyclerView.setAdapter(null);
+
+                        ArrayList<Event_Details> event_details1 = new ArrayList<>();
+                        for(int j=0;j<event_details.size();j++)
+                        {
+                            String[] str = event_details.get(j).getDateTime().split("\\-");
+                            if( i2==Integer.parseInt(str[0])  && i1==(Integer.parseInt(str[1]) -1) &&   i==Integer.parseInt(str[2]))
+                            {
+
+
+                                event_details1.add(new Event_Details(event_details.get(j).getSubjectClassName(),event_details.get(j).getDateTime(),event_details.get(j).getShiftName(),event_details.get(j).getEventID()));
+
+                            }
+                        }
+                        ShopAdapter shopAdapter = new ShopAdapter(event_details1,getActivity());
+                        recyclerView.setAdapter(shopAdapter);
+
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<List<Event_Details>> call, Throwable t) {
+                Log.d("aaa", t.getCause().getMessage());
+            }
+        });
+
     }
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="130dp">
+    android:layout_height="100dp">
 
     <TextView
         android:id="@+id/textView11"
@@ -13,13 +13,13 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="12dp"
-        android:text="Môn Học"
+        android:text="Lớp Học Phần :"
         android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_start"
+        android:id="@+id/tv_ngayhoc"
         android:layout_width="84dp"
         android:layout_height="20dp"
         android:layout_marginStart="64dp"
@@ -28,34 +28,21 @@
         android:text="TextView"
         android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/monHocCustom" />
+        app:layout_constraintTop_toBottomOf="@+id/lophocphan" />
 
     <TextView
-        android:id="@+id/tv_finish"
+        android:id="@+id/tv_ca"
         android:layout_width="84dp"
         android:layout_height="20dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginLeft="72dp"
+        android:layout_marginStart="84dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/tv_start" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_ngayhoc" />
 
     <TextView
-        android:id="@+id/tv_classroom"
-        android:layout_width="84dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textColor="#000000"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/tv_finish" />
-
-    <TextView
-        android:id="@+id/monHocCustom"
+        android:id="@+id/lophocphan"
         android:layout_width="84dp"
         android:layout_height="20dp"
         android:layout_marginStart="52dp"
@@ -73,7 +60,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
-        android:text="Start"
+        android:text="Ngày Học :"
         android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -85,22 +72,10 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
-        android:text="Finish"
+        android:text="Ca : "
         android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="59dp"
-        android:layout_height="21dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:text="Địa Điểm"
-        android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
