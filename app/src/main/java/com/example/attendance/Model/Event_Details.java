@@ -41,7 +41,7 @@ public class Event_Details {
     public String getDateTime() {
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
-        LocalDate date = LocalDate.parse(dateTime.toString(), inputFormatter);
+        LocalDate date = LocalDate.parse(dateTime, inputFormatter);
         String formattedDate = outputFormatter.format(date);
         return formattedDate;
     }

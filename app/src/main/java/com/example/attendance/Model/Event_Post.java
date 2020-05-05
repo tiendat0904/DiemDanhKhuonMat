@@ -1,8 +1,23 @@
 package com.example.attendance.Model;
 
+import android.content.Intent;
+
 import com.google.api.client.util.DateTime;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.Date;
 
 public class Event_Post {
+    public Integer getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(Integer eventID) {
+        this.eventID = eventID;
+    }
+
+    private Integer eventID;
     private int shiftID;
     private int subjectClassID;
     private DateTime dateTime;

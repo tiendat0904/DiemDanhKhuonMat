@@ -73,16 +73,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <TextView
             android:id="@+id/editText_lich"
             android:layout_width="116dp"
             android:layout_height="32dp"
-            android:layout_marginStart="88dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="27dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:textColor="#000000"
-            android:textSize="10dp"
+            android:textSize="13dp"
             app:layout_constraintStart_toEndOf="@+id/textView15"
             app:layout_constraintTop_toTopOf="parent" />
 
