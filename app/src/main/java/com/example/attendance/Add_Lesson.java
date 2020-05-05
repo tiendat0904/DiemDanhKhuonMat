@@ -197,7 +197,7 @@ public class Add_Lesson extends AppCompatActivity {
 
     private void get_Shift() {
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.3.2:64535/api/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         ShiftService class_Service =retrofit.create(ShiftService.class);
         Call<List<Shift>> call = class_Service.getShift();
@@ -231,7 +231,7 @@ public class Add_Lesson extends AppCompatActivity {
 
     private void get_Class() {
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.3.2:64535/api/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         APIService class_Service =retrofit.create(APIService.class);
         Call<List<SubjectClass>> call = class_Service.getCSubjectClass();
