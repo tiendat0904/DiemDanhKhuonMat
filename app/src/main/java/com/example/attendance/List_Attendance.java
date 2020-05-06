@@ -18,11 +18,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import com.example.attendance.API.Student_API;
+import com.example.attendance.Model.StudentDTO;
 import com.example.attendance.ui.home.HomeFragment;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -36,8 +38,11 @@ public class List_Attendance extends AppCompatActivity {
     Button btn_accecpt;
     RecyclerView recyclerView;
     StudentAdapter mStudent;
-
+    boolean hasAttendedStudentList;
+    ArrayList<StudentDTO> attendedStudentList = new ArrayList<StudentDTO>();
     androidx.appcompat.widget.Toolbar toolbar_diemdanh;
+    private HashSet<String> attendedStudentSet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,17 +83,24 @@ public class List_Attendance extends AppCompatActivity {
     }
 
     private void getStudent() {
-        String event_id ="";
+        String eventId ="";
+
+
         Bundle extras = getIntent().getExtras();
         if(extras!= null)
         {
-            event_id= extras.getString("eventID");
+            eventId= extras.getString("eventID");
+            hasAttendedStudentList = extras.getBoolean("hasAttendedStudentList");
+            if(hasAttendedStudentList == true){
+//                attendedStudentList = (ArrayList<StudentDTO>) extras.getSerializable("studentList");
+                attendedStudentSet = (HashSet<String>) extras.getSerializable("studentSet");
+            }
         }
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.3.2:64535/api/Events/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/Events/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         Student_API student_Service =retrofit.create(Student_API.class);
-        Call<List<Student>> call = student_Service.getStudent(event_id);
+        Call<List<Student>> call = student_Service.getStudent(eventId);
         call.enqueue(new Callback<List<Student>>() {
             @Override
             public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
@@ -101,13 +113,17 @@ public class List_Attendance extends AppCompatActivity {
                     return;
                 }
                 recyclerView.setAdapter(null);
-                List<Student> students = response.body();
-                ArrayList<Student> studentArrayList = new ArrayList<>();
-                for(int i=0;i<students.size();i++)
-                {
-                    studentArrayList.add(new Student(students.get(i).getStudentID(),students.get(i).getHoTen(),students.get(i).getClassName()));
-                }
-                mStudent = new StudentAdapter(studentArrayList,List_Attendance.this);
+                ArrayList<Student> studentArrList = (ArrayList<Student>) response.body();
+//                ArrayList<Student> studentArrayList = new ArrayList<>();
+//                for(int i=0;i<studentList.size();i++)
+//                {
+//                    if(hasAttendedStudentList == true){
+//                        studentArrayList.add(new Student(studentList.get(i).getStudentID(),studentList.get(i).getHoTen(),studentList.get(i).getClassName()));
+//                    }else{
+//
+//                    }
+//                }
+                mStudent = new StudentAdapter(studentArrList, attendedStudentSet, List_Attendance.this);
                 recyclerView.setAdapter(mStudent);
 
             }

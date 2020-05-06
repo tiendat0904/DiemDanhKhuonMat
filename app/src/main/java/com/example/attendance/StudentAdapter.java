@@ -12,16 +12,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.attendance.Model.StudentDTO;
 import com.example.attendance.ui.home.HomeFragment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHolder> {
-    public static ArrayList<Student> list_student;
+    public static ArrayList<Student> studentList;
+    public static HashSet<String> attendedStudentSet;
     Context context;
 
-    public StudentAdapter(ArrayList<Student> list_student, Context context) {
-        this.list_student = list_student;
+    public StudentAdapter(ArrayList<Student> studentList, HashSet<String> attendedStudentSet, Context context) {
+        this.studentList = studentList;
+        this.attendedStudentSet = attendedStudentSet;
         this.context = context;
     }
 
@@ -34,16 +38,24 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final StudentAdapter.ViewHolder holder, final int position) {
-        holder.txt_msv.setText(list_student.get(position).getStudentID());
-        holder.txt_hoten.setText(list_student.get(position).getHoTen());
-        holder.txt_monhoc.setText(list_student.get(position).getClassName());
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        holder.txt_msv.setText(studentList.get(position).getStudentID());
+        holder.txt_hoten.setText(studentList.get(position).getHoTen());
+        holder.txt_monhoc.setText(studentList.get(position).getClassName());
+        String studentID = studentList.get(position).getStudentID();
+        if(attendedStudentSet != null){
+            if(attendedStudentSet.contains(studentList.get(position).getStudentID())){
+                holder.checkBox.setChecked(true);
+            }else{
+                holder.checkBox.setChecked(false);
+            }
+        }
 //        holder.checkBox.setChecked(list_student.get(position).isDiHoc());
     }
 
     @Override
     public int getItemCount() {
-        return list_student.size();
+        return studentList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -55,7 +67,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
             txt_msv = (TextView)itemView.findViewById(R.id.tv_msv);
             txt_hoten = (TextView)itemView.findViewById(R.id.tv_tensv);
             txt_monhoc = (TextView)itemView.findViewById(R.id.tv_monhoc);
-            //checkBox = (CheckBox)itemView.findViewById(R.id.checkBox);
+            checkBox = (CheckBox)itemView.findViewById(R.id.checkBox);
 
 //            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //                @Override

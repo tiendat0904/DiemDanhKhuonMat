@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
 
     private void getDate() {
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.3.2:64535/api/Events/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/Events/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         list_event_details=new ArrayList<>();
         Event_details class_Service =retrofit.create(Event_details.class);

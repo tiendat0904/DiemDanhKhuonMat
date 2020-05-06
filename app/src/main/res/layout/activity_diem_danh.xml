@@ -147,12 +147,12 @@
 
 
         <ImageView
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
+            android:id="@+id/imageView"
+            android:layout_width="346dp"
+            android:layout_height="231dp"
             android:layout_gravity="center"
-            android:id="@+id/image"
-            android:layout_width="200dp"
-            android:layout_height="200dp"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
     </LinearLayout>
     <LinearLayout
         android:background="#F8F8F8"
@@ -161,27 +161,30 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <Button
-            android:paddingTop="5dp"
-            android:layout_marginBottom="5dp"
             android:id="@+id/button_permission"
-            android:text="ĐIỂM DANH"
-            android:textSize="25dp"
-            android:background="@drawable/botron_button"
-            android:layout_width="150dp"
-
-            android:layout_height="wrap_content"/>
-        <Button
-            android:paddingTop="5dp"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="15dp"
-            android:id="@+id/button_permission_AI"
-            android:text="ĐIỂM DANH(AI)"
-            android:textSize="25dp"
             android:background="@drawable/botron_button"
-            android:layout_width="200dp"
+            android:paddingTop="5dp"
+            android:text="ĐIỂM DANH" />
 
-            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/button_permission_AI"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/botron_button"
+            android:paddingTop="5dp"
+            android:text="ĐIỂM DANH(AI)"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+
+            app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 
 
