@@ -42,15 +42,18 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         holder.txt_msv.setText(studentList.get(position).getStudentID());
         holder.txt_hoten.setText(studentList.get(position).getHoTen());
         holder.txt_monhoc.setText(studentList.get(position).getClassName());
-        String studentID = studentList.get(position).getStudentID();
+        holder.checkBox.setChecked(studentList.get(position).isDihoc());
+//        String studentID = studentList.get(position).getStudentID();
         if(attendedStudentSet != null){
-            if(attendedStudentSet.contains(studentList.get(position).getStudentID())){
-                holder.checkBox.setChecked(true);
-            }else{
+                if(attendedStudentSet.contains(studentList.get(position).getStudentID())){
+                    holder.checkBox.setChecked(true);
+                }else{
                 holder.checkBox.setChecked(false);
             }
         }
-//        holder.checkBox.setChecked(list_student.get(position).isDiHoc());
+        holder.checkBox.setChecked(studentList.get(position).isDihoc());
+
+//        holder.checkBox.setChecked(studentList.get(position).getDihoc());
     }
 
     @Override
@@ -68,13 +71,14 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
             txt_hoten = (TextView)itemView.findViewById(R.id.tv_tensv);
             txt_monhoc = (TextView)itemView.findViewById(R.id.tv_monhoc);
             checkBox = (CheckBox)itemView.findViewById(R.id.checkBox);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    //  studentList.get(getAdapterPosition()).setDihoc(b);
+                    studentList.get(getAdapterPosition()).setDihoc(b);
+                }
+            });
 
-//            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                    //list_student.get(getAdapterPosition()).setDiHoc(b);
-//                }
-//            });
         }
     }
 }

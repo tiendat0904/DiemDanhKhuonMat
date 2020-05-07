@@ -1,8 +1,15 @@
 package com.example.attendance;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +23,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.attendance.API.Event_API;
 import com.example.attendance.Model.Event_Post;
@@ -44,23 +53,37 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Add_Lesson extends AppCompatActivity {
+    public static final String[] EVENT_PROJECTION = new String[]{
+            CalendarContract.Calendars._ID,                           // 0
+            CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
+            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
+            CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
+    };
+
+    // The indices for the projection array above.
+    private static final int PROJECTION_ID_INDEX = 0;
+    private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
+    private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
+    private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
+    private int REQUEST_ID_IMAGE_CAPTURE = 100;
+    private int REQUEST_ID_IMAGE_CAPTURE_write = 101;
     APIService mAPIService;
     TextView editText_ngay;
     String a;
     String luachonlap;
-    String txtT2,txtT3,txtT4,txtT5,txtT6,txtT7,txtCN,kieulap,solanlapmoituan;
+    String txtT2, txtT3, txtT4, txtT5, txtT6, txtT7, txtCN, kieulap, solanlapmoituan;
     //EditText editText_ngay;
-    int ca,lop;
-    DateTime dateTime =null;
-    Button btn_chonlich,btn_xacnhan;
-    Spinner spinner_luachon,spinner_lop,spinner_ca;
+    int ca, lop;
+    String lophoc;
+    DateTime dateTime = null;
+    Button btn_chonlich, btn_xacnhan;
+    Spinner spinner_luachon, spinner_lop, spinner_ca;
     ArrayList<String> list_luachon;
     ArrayList<SubjectClass> list_class = new ArrayList<>();
     SimpleDateFormat fmtDateAndTime = new SimpleDateFormat("yyyy-MM-dd");
-    ArrayList<String> get_sujectclass,get_shift;
+    ArrayList<String> get_sujectclass, get_shift;
     Calendar myCalendar = Calendar.getInstance();
-    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener()
-    {
+    DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view,
                               int year, int monthOfYear, int dayOfMonth) {
             myCalendar.set(Calendar.YEAR, year);
@@ -70,7 +93,7 @@ public class Add_Lesson extends AppCompatActivity {
         }
     };
 
-    private void update(){
+    private void update() {
         editText_ngay.setText(fmtDateAndTime.format(myCalendar.getTime()));
     }
 
@@ -78,12 +101,12 @@ public class Add_Lesson extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add__lesson);
-        editText_ngay= (TextView) findViewById(R.id.editText_lich);
-        btn_chonlich = (Button)findViewById(R.id.button_chonlich);
-        btn_xacnhan =(Button)findViewById(R.id.button_xacnhan);
-        spinner_luachon =(Spinner)findViewById(R.id.spinner_luachon);
-        spinner_lop = (Spinner)findViewById(R.id.spinner_lop);
-        spinner_ca= (Spinner)findViewById(R.id.spinner_ca);
+        editText_ngay = (TextView) findViewById(R.id.editText_lich);
+        btn_chonlich = (Button) findViewById(R.id.button_chonlich);
+        btn_xacnhan = (Button) findViewById(R.id.button_xacnhan);
+        spinner_luachon = (Spinner) findViewById(R.id.spinner_luachon);
+        spinner_lop = (Spinner) findViewById(R.id.spinner_lop);
+        spinner_ca = (Spinner) findViewById(R.id.spinner_ca);
         list_luachon = new ArrayList<>();
         list_luachon.add("");
         list_luachon.add("Hàng Ngày");
@@ -93,8 +116,9 @@ public class Add_Lesson extends AppCompatActivity {
         spinner_lop.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                lop=position;
-                Toast.makeText(getApplicationContext(),lop+"",Toast.LENGTH_LONG).show();
+                lop = position;
+                lophoc ="NO"+position;
+//                Toast.makeText(getApplicationContext(), lop + "", Toast.LENGTH_LONG).show();
             }
 
 
@@ -106,22 +130,24 @@ public class Add_Lesson extends AppCompatActivity {
         get_shift = new ArrayList<>();
         get_Class();
         get_Shift();
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,list_luachon);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list_luachon);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spinner_luachon.setAdapter(arrayAdapter);
         btn_xacnhan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addEvent();
-                Intent intent = new Intent(Add_Lesson.this,MainActivity.class);
+                //setCalendar();
+                Intent intent = new Intent(Add_Lesson.this, MainActivity.class);
                 startActivity(intent);
+
             }
         });
         spinner_ca.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ca=position;
-                Toast.makeText(getApplicationContext(),ca+"",Toast.LENGTH_LONG).show();
+                ca = position;
+//                Toast.makeText(getApplicationContext(), ca + "", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -135,27 +161,23 @@ public class Add_Lesson extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-                if(spinner_luachon.getSelectedItem()=="Hàng Tuần")
-                {
-                    luachonlap=spinner_luachon.getSelectedItem().toString();
+                if (spinner_luachon.getSelectedItem() == "Hàng Tuần") {
+                    luachonlap = spinner_luachon.getSelectedItem().toString();
 
                 }
-                if(spinner_luachon.getSelectedItem()=="Hàng Ngày")
-                {
-                    luachonlap=spinner_luachon.getSelectedItem().toString();
+                if (spinner_luachon.getSelectedItem() == "Hàng Ngày") {
+                    luachonlap = spinner_luachon.getSelectedItem().toString();
                 }
-                if(spinner_luachon.getSelectedItem()=="Tùy Chỉnh")
-                {
-                    luachonlap=spinner_luachon.getSelectedItem().toString();
-                    Intent intent = new Intent(Add_Lesson.this,CustomRepeat.class);
-                    startActivityForResult(intent,9);
+                if (spinner_luachon.getSelectedItem() == "Tùy Chỉnh") {
+                    luachonlap = spinner_luachon.getSelectedItem().toString();
+                    Intent intent = new Intent(Add_Lesson.this, CustomRepeat.class);
+                    startActivityForResult(intent, 9);
 
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
@@ -174,6 +196,37 @@ public class Add_Lesson extends AppCompatActivity {
         editText_ngay.getText().toString();
         //Toast.makeText(getApplicationContext(),b,Toast.LENGTH_LONG).show();
     }
+
+
+    private void verifyPermission() {
+        final int permission_camera = ContextCompat.checkSelfPermission(Add_Lesson.this, Manifest.permission.READ_CALENDAR);
+        final int permission_camera_write = ContextCompat.checkSelfPermission(Add_Lesson.this,Manifest.permission.WRITE_CALENDAR);
+        if(permission_camera != PackageManager.PERMISSION_GRANTED) {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(Add_Lesson.this,Manifest.permission.READ_CALENDAR))
+            {
+                ActivityCompat.requestPermissions(Add_Lesson.this, new String[]{Manifest.permission.READ_CALENDAR},
+                        REQUEST_ID_IMAGE_CAPTURE);
+            }
+            else
+            {
+                ActivityCompat.requestPermissions(Add_Lesson.this, new String[]{Manifest.permission.READ_CALENDAR},
+                        REQUEST_ID_IMAGE_CAPTURE_write);
+            }
+        }
+        if(permission_camera_write != PackageManager.PERMISSION_GRANTED) {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(Add_Lesson.this,Manifest.permission.WRITE_CALENDAR))
+            {
+                ActivityCompat.requestPermissions(Add_Lesson.this, new String[]{Manifest.permission.WRITE_CALENDAR},
+                        REQUEST_ID_IMAGE_CAPTURE_write);
+            }
+            else
+            {
+                ActivityCompat.requestPermissions(Add_Lesson.this, new String[]{Manifest.permission.WRITE_CALENDAR},
+                        REQUEST_ID_IMAGE_CAPTURE_write);
+            }
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -194,6 +247,8 @@ public class Add_Lesson extends AppCompatActivity {
     private void addEvent() {
         Date hientai=null;
         Date cuoicung=null;
+        long startMillis = 0;
+        long endMillis = 0;
         if(luachonlap=="Hàng Tuần")
         {
            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -206,12 +261,14 @@ public class Add_Lesson extends AppCompatActivity {
             }
             Calendar c1= Calendar.getInstance();
             c1.setTime(date);
+            startMillis=c1.getTimeInMillis();
             hientai=c1.getTime();
             c1.add(Calendar.YEAR,1);
+            endMillis=c1.getTimeInMillis();
             cuoicung=c1.getTime();
             dateTime=DateTime.parseRfc3339(editText_ngay.getText().toString());
             OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.3.2:64535/api/").client(okHttpClient)
+            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create()).build();
             Event_API event_api =retrofit.create(Event_API.class);
             String json ="{\n" +
@@ -229,6 +286,7 @@ public class Add_Lesson extends AppCompatActivity {
 
                 }
             });
+
             while (hientai.before(cuoicung))
             {
                 c1.setTime(date);
@@ -270,12 +328,14 @@ public class Add_Lesson extends AppCompatActivity {
             }
             Calendar c1= Calendar.getInstance();
             c1.setTime(date);
+            startMillis=c1.getTimeInMillis();
             hientai=c1.getTime();
             c1.add(Calendar.YEAR,1);
+            endMillis=c1.getTimeInMillis();
             cuoicung=c1.getTime();
             dateTime=DateTime.parseRfc3339(editText_ngay.getText().toString());
             OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.3.2:64535/api/").client(okHttpClient)
+            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create()).build();
             Event_API event_api =retrofit.create(Event_API.class);
             String json ="{\n" +
@@ -293,13 +353,39 @@ public class Add_Lesson extends AppCompatActivity {
 
                 }
             });
+            verifyPermission();
+            Cursor cur = null;
+            ContentResolver cr = getContentResolver();
+            Uri uri = CalendarContract.Calendars.CONTENT_URI;
+            String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
+                    + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
+                    + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
+            String[] selectionArgs = new String[]{"hasagidzo@gmail.com", "com.google",
+                    "hasagidzo@gmail.com"};
+            long calID = 0;
+            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+            while (cur.moveToNext()) {
+                String displayName = null;
+                String accountName = null;
+                String ownerName = null;
+                // Get the field values
+                calID = cur.getLong(PROJECTION_ID_INDEX);
+
+                String title = "Lớp : "+lop+"\n Ngày :"+dateTime+"\n Ca :"+ca;
+                ContentValues values = new ContentValues();
+                values.put(CalendarContract.Events.DTSTART, startMillis);
+                values.put(CalendarContract.Events.DTEND, endMillis);
+                values.put(CalendarContract.Events.TITLE, "Lớp :"+lophoc);
+                values.put(CalendarContract.Events.DESCRIPTION, title);
+                values.put(CalendarContract.Events.CALENDAR_ID, calID);
+                values.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
+                Uri uri2 = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+
+// get the event ID that is the last element in the Uri
+                long eventID = Long.parseLong(uri2.getLastPathSegment());
+            }
             while (hientai.before(cuoicung))
             {
-//                try {
-//                    date =format.parse(editText_ngay.getText().toString());
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
                 c1.setTime(date);
                 c1.add(Calendar.DATE,1);
                 String a = format.format(c1.getTime());
@@ -345,7 +431,7 @@ public class Add_Lesson extends AppCompatActivity {
             cuoicung=c1.getTime();
             dateTime=DateTime.parseRfc3339(editText_ngay.getText().toString());
             OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.3.2:64535/api/").client(okHttpClient)
+            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create()).build();
             Event_API event_api =retrofit.create(Event_API.class);
             String json ="{\n" +

@@ -4,6 +4,23 @@ public class Student {
     private String studentID;
     private String hoTen;
     private String className;
+    private boolean isDihoc;
+
+//    public Student(String studentID, String hoTen, String className, Boolean isDihoc) {
+//        this.studentID = studentID;
+//        this.hoTen = hoTen;
+//        this.className = className;
+//        this.isDihoc = isDihoc;
+//    }
+
+
+    public boolean isDihoc() {
+        return isDihoc;
+    }
+
+    public void setDihoc(boolean dihoc) {
+        isDihoc = dihoc;
+    }
 
     public String getStudentID() {
         return studentID;

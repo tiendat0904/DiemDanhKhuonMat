@@ -40,8 +40,10 @@ public class List_Attendance extends AppCompatActivity {
     StudentAdapter mStudent;
     boolean hasAttendedStudentList;
     ArrayList<StudentDTO> attendedStudentList = new ArrayList<StudentDTO>();
+   public static ArrayList<Student> studentArrList=new ArrayList<Student>();
     androidx.appcompat.widget.Toolbar toolbar_diemdanh;
-    private HashSet<String> attendedStudentSet;
+    HashSet<String> attendedStudentSet;
+    String eventId ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +79,14 @@ public class List_Attendance extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(List_Attendance.this,List_NoAttendance.class);
+                intent.putExtra("eventID",eventId);
+                intent.putExtra("hasAttendedStudentList",(Serializable)attendedStudentSet);
                 startActivity(intent);
             }
         });
     }
 
     private void getStudent() {
-        String eventId ="";
 
 
         Bundle extras = getIntent().getExtras();
@@ -105,15 +108,15 @@ public class List_Attendance extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
                 if(!response.isSuccessful()){
-                    try {
-                        Log.d("aaa", response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        try {
+                            Log.d("aaa", response.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     return;
                 }
                 recyclerView.setAdapter(null);
-                ArrayList<Student> studentArrList = (ArrayList<Student>) response.body();
+                studentArrList = (ArrayList<Student>) response.body();
 //                ArrayList<Student> studentArrayList = new ArrayList<>();
 //                for(int i=0;i<studentList.size();i++)
 //                {

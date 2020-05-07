@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class Student_NoAttendance_Adapter extends RecyclerView.Adapter<Student_NoAttendance_Adapter.ViewHolder> {
-    ArrayList<Student> list_student_noattendance;
-    Context context;
+    public static ArrayList<Student> list_student_noattendance;
+    public static Context context;
 
     public Student_NoAttendance_Adapter(ArrayList<Student> list_student_noattendance, Context context) {
         this.list_student_noattendance = list_student_noattendance;
@@ -35,7 +35,7 @@ public class Student_NoAttendance_Adapter extends RecyclerView.Adapter<Student_N
         holder.txt_msv.setText(list_student_noattendance.get(position).getStudentID());
         holder.txt_hoten.setText(list_student_noattendance.get(position).getHoTen());
         holder.txt_monhoc.setText(list_student_noattendance.get(position).getClassName());
-        //holder.checkBox.setChecked(list_student_noattendance.get(position).isDiHoc());
+        holder.checkBox.setChecked(list_student_noattendance.get(position).isDihoc());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Student_NoAttendance_Adapter extends RecyclerView.Adapter<Student_N
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                   // list_student_noattendance.get(getAdapterPosition()).setDiHoc(b);
+                    list_student_noattendance.get(getAdapterPosition()).setDihoc(b);
                 }
             });
         }
