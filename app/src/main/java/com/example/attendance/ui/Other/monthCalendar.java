@@ -1,4 +1,4 @@
-package com.example.attendance;
+package com.example.attendance.ui.Other;
 
 import android.Manifest;
 import android.content.Intent;

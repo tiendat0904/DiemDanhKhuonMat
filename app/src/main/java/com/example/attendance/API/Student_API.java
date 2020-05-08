@@ -1,7 +1,6 @@
 package com.example.attendance.API;
 
-import com.example.attendance.Model.Event_Details;
-import com.example.attendance.Student;
+import com.example.attendance.Model.Student;
 
 import java.util.List;
 

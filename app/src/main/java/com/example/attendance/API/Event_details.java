@@ -1,4 +1,4 @@
-package com.example.attendance.ui;
+package com.example.attendance.API;
 
 import com.example.attendance.Model.Event_Details;
 

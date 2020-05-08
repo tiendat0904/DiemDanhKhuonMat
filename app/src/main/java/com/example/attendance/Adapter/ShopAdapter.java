@@ -1,22 +1,20 @@
-package com.example.attendance;
+package com.example.attendance.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.attendance.Activity.DiemDanh;
 import com.example.attendance.Model.Event_Details;
-import com.example.attendance.monthCalendar;
+import com.example.attendance.R;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
@@ -44,7 +42,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,DiemDanh.class);
+                Intent intent = new Intent(context, DiemDanh.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("sujectclass", holder.txt_sujectclass.getText().toString());
                 intent.putExtra("datetime", holder.txt_datetime.getText().toString());

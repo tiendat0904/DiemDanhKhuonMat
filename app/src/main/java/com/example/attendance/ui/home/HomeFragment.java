@@ -1,41 +1,32 @@
 package com.example.attendance.ui.home;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.attendance.APIService;
-import com.example.attendance.Add_Lesson;
-import com.example.attendance.DataShop;
+import com.example.attendance.Activity.Add_Lesson;
 import com.example.attendance.Model.Event_Details;
 import com.example.attendance.R;
-import com.example.attendance.ShopAdapter;
-import com.example.attendance.Student;
-import com.example.attendance.SubjectClass;
-import com.example.attendance.UnsafeOkHttpClient;
-import com.example.attendance.monthCalendar;
-import com.example.attendance.ui.Event_details;
+import com.example.attendance.Adapter.ShopAdapter;
+import com.example.attendance.Model.Student;
+import com.example.attendance.ui.Other.UnsafeOkHttpClient;
+import com.example.attendance.API.Event_details;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,7 +58,7 @@ public class HomeFragment extends Fragment {
         //final TextView textView = root.findViewById(R.id.text_home);
         recyclerView = root.findViewById(R.id.listTB);
         cld = root.findViewById(R.id.Cld);
-        t = root.findViewById(R.id.test);
+       // t = root.findViewById(R.id.test);
         // Bắt đầu đưa dữ liệu vào
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL,false);
@@ -84,6 +75,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), Add_Lesson.class);
                 startActivity(intent);
+
             }
         });
         return root;
@@ -136,7 +128,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Event_Details>> call, Throwable t) {
-                Log.d("aaa", t.getCause().getMessage());
+       //         Log.d("aaa", t.getCause().getMessage());
             }
         });
 

@@ -1,4 +1,4 @@
-package com.example.attendance;
+package com.example.attendance.Model;
 
 import android.icu.text.TimeZoneFormat;
 

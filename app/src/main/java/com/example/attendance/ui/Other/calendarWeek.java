@@ -1,7 +1,9 @@
-package com.example.attendance;
+package com.example.attendance.ui.Other;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.attendance.CalendarQuickstart;
+
+import com.example.attendance.R;
+import com.example.attendance.ui.Other.CalendarQuickstart;
 import android.os.Bundle;
 import android.widget.TextView;
 

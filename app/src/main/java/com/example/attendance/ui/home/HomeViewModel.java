@@ -1,19 +1,12 @@
 package com.example.attendance.ui.home;
 
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.attendance.MainActivity;
-
-import java.util.ArrayList;
-
-import com.example.attendance.CalendarQuickstart;
-import com.example.attendance.R;
+import com.example.attendance.ui.Other.CalendarQuickstart;
 
 public class HomeViewModel extends ViewModel {
 

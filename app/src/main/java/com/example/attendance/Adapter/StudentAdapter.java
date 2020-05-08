@@ -1,7 +1,6 @@
-package com.example.attendance;
+package com.example.attendance.Adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.attendance.Model.StudentDTO;
-import com.example.attendance.ui.home.HomeFragment;
+import com.example.attendance.Model.Student;
+import com.example.attendance.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,7 +42,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         holder.txt_hoten.setText(studentList.get(position).getHoTen());
         holder.txt_monhoc.setText(studentList.get(position).getClassName());
         holder.checkBox.setChecked(studentList.get(position).isDihoc());
-//        String studentID = studentList.get(position).getStudentID();
         if(attendedStudentSet != null){
                 if(attendedStudentSet.contains(studentList.get(position).getStudentID())){
                     holder.checkBox.setChecked(true);
@@ -53,7 +51,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         }
         holder.checkBox.setChecked(studentList.get(position).isDihoc());
 
-//        holder.checkBox.setChecked(studentList.get(position).getDihoc());
     }
 
     @Override

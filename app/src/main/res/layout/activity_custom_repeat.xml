@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F8F8"
-    tools:context="com.example.attendance.CustomRepeat">
+    tools:context="com.example.attendance.Activity.CustomRepeat">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_custom_repeat"
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:background="#8C807E"
+        android:background="@drawable/contrantlayout"
         android:layout_width="358dp"
         android:layout_height="63dp"
         android:layout_marginTop="24dp"
@@ -86,10 +86,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout6"
         android:layout_width="358dp"
         android:layout_height="248dp"
         android:layout_marginTop="44dp"
-        android:background="#8C807E"
+        android:background="@drawable/contrantlayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
@@ -159,7 +160,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
-        android:background="#8C807E"
+        android:background="@drawable/contrantlayout"
         android:layout_width="358dp"
         android:layout_height="113dp"
         android:layout_marginTop="32dp"
@@ -298,22 +299,26 @@
         android:id="@+id/button_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="48dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/botron_button"
         android:text="Xong"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_cancel" />
+        app:layout_constraintEnd_toStartOf="@+id/button_cancel"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6"
+        app:layout_constraintVertical_bias="0.911" />
 
     <Button
         android:id="@+id/button_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="56dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/botron_button"
         android:text="Thoát"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6"
+        app:layout_constraintVertical_bias="0.911" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

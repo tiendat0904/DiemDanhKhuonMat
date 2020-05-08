@@ -1,13 +1,11 @@
-package com.example.attendance;
+package com.example.attendance.API;
 
-import com.example.attendance.Model.Event_Details;
-import com.example.attendance.Model.Shift;
+import com.example.attendance.Model.SubjectClass;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 
 public interface APIService {
     @GET("SubjectClasses")

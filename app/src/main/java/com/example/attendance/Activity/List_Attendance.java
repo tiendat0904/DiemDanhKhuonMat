@@ -1,4 +1,4 @@
-package com.example.attendance;
+package com.example.attendance.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,15 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import com.example.attendance.API.Student_API;
 import com.example.attendance.Model.StudentDTO;
-import com.example.attendance.ui.home.HomeFragment;
+import com.example.attendance.R;
+import com.example.attendance.Model.Student;
+import com.example.attendance.Adapter.StudentAdapter;
+import com.example.attendance.ui.Other.UnsafeOkHttpClient;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -49,12 +50,9 @@ public class List_Attendance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list__attendance);
-
         btn_accecpt = (Button)findViewById(R.id.btn_accept);
         toolbar_diemdanh = (Toolbar)findViewById(R.id.toolbar_list_diemdanh);
         recyclerView = (RecyclerView)findViewById(R.id.rev_list_student);
-
-        //mStudent = new StudentAdapter(MainActivity.list_student_danhsachdauvao,List_Attendance.this);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
@@ -78,7 +76,7 @@ public class List_Attendance extends AppCompatActivity {
         btn_accecpt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(List_Attendance.this,List_NoAttendance.class);
+                Intent intent = new Intent(List_Attendance.this, List_NoAttendance.class);
                 intent.putExtra("eventID",eventId);
                 intent.putExtra("hasAttendedStudentList",(Serializable)attendedStudentSet);
                 startActivity(intent);
@@ -94,6 +92,12 @@ public class List_Attendance extends AppCompatActivity {
         {
             eventId= extras.getString("eventID");
             hasAttendedStudentList = extras.getBoolean("hasAttendedStudentList");
+            ArrayList<Student> list;
+//            for(int i = 0; i< list.size(); i++){
+//                if(attendedStudentSet.contains(list.get(i).getStudentID())){
+//                    list.get(i).isDihoc() == true;
+//                }
+//            }
             if(hasAttendedStudentList == true){
 //                attendedStudentList = (ArrayList<StudentDTO>) extras.getSerializable("studentList");
                 attendedStudentSet = (HashSet<String>) extras.getSerializable("studentSet");

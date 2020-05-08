@@ -13,5 +13,6 @@
     <string name="menu_statistic">Thống kê</string>
     <string name="menu_Information">Thông tin</string>
     <string name="menu_AlterPass">Đổi mật khẩu</string>
+    <drawable name="grey">#cccccc</drawable>
     <string name="menu_Exit">Thoát</string>
 </resources>

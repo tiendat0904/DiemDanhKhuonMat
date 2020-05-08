@@ -1,4 +1,4 @@
-package com.example.attendance;
+package com.example.attendance.Model;
 
 public class DataShop {
     private String txt1,txt2,txt3,txtMonHoc;

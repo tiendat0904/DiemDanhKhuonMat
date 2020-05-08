@@ -10,7 +10,8 @@
 
     <CalendarView
         android:id="@+id/Cld"
-        android:layout_width="392dp"
+        android:layout_width="match_parent"
+        android:outlineSpotShadowColor="@color/black"
         android:layout_height="296dp"
         android:dateTextAppearance="@style/CalenderViewDateCustomText"
         android:theme="@style/CalenderViewCustom"
@@ -24,9 +25,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listTB"
-        android:layout_width="396dp"
-        android:layout_height="262dp"
-        android:background="#F8F8F8"
+        android:layout_width="match_parent"
+        android:layout_height="253dp"
+        android:background="@drawable/recyclerview"
         app:layout_constraintBottom_toTopOf="@+id/button_themlich"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -47,16 +48,6 @@
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="24dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F8F8"
-    tools:context="com.example.attendance.List_Attendance">
+    tools:context="com.example.attendance.Activity.List_Attendance">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_list_khongdiemdanh"

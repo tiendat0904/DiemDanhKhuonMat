@@ -1,7 +1,6 @@
-package com.example.attendance;
+package com.example.attendance.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -12,9 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -24,25 +21,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.attendance.API.IdentifyAPI;
-import com.example.attendance.API.Student_API;
 import com.example.attendance.Model.StudentDTO;
+import com.example.attendance.R;
+import com.example.attendance.ui.Other.UnsafeOkHttpClient;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,8 +47,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DiemDanh extends AppCompatActivity {
     androidx.appcompat.widget.Toolbar toolbar_diemdanh;
     Button btn_diemdanh_AI,btn_diemdanh;
+    String event_id="";
     File tempFile;
-    TextView txt_start1,txt_finish1,txt_classroom1,txt_MonHoc1,txt_giangvien;
+    TextView txt_start1,txt_classroom1,txt_shift;
     ImageView anh;
     static final int REQUEST_ID_IMAGE_CAPTURE = 100;
     private Context context;
@@ -63,24 +58,15 @@ public class DiemDanh extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diem_danh);
-        btn_diemdanh_AI = (Button)findViewById(R.id.button_permission_AI);
-        btn_diemdanh = (Button)findViewById(R.id.button_permission);
-        anh = (ImageView)findViewById(R.id.imageView);
-        toolbar_diemdanh = (Toolbar) findViewById(R.id.toolbar_diemdanh);
-        txt_start1 = (TextView)findViewById(R.id.tv_start1);
-        txt_finish1=(TextView)findViewById(R.id.tv_finish1);
-        txt_classroom1 = (TextView)findViewById(R.id.tv_classroom1);
-        txt_giangvien = (TextView)findViewById(R.id.txt_giangvien);
-
-        txt_MonHoc1 = (TextView)findViewById(R.id.tv_subject);
+        anhxa();
 
         Bundle extras = getIntent().getExtras();
         if(extras!= null)
         {
-            txt_start1.setText(extras.getString("sujectclass"));
-            txt_finish1.setText(extras.getString("datetime"));
-            txt_classroom1.setText(extras.getString("shift"));
-            txt_giangvien.setText(extras.getString("eventID"));
+            txt_classroom1.setText(extras.getString("sujectclass"));
+            txt_start1.setText(extras.getString("datetime"));
+            txt_shift.setText(extras.getString("shift"));
+            event_id=extras.getString("eventID");
 
         }
         setSupportActionBar(toolbar_diemdanh);
@@ -94,9 +80,9 @@ public class DiemDanh extends AppCompatActivity {
         btn_diemdanh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DiemDanh.this,List_Attendance.class);
+                Intent intent = new Intent(DiemDanh.this, List_Attendance.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("eventID", txt_giangvien.getText().toString());
+                intent.putExtra("eventID", event_id);
                 intent.putExtra("hasAttendedStudentList", false);
                 startActivity(intent);
             }
@@ -107,6 +93,16 @@ public class DiemDanh extends AppCompatActivity {
                 verifyPermission();
             }
         });
+    }
+
+    private void anhxa() {
+        btn_diemdanh_AI = (Button)findViewById(R.id.button_permission_AI);
+        btn_diemdanh = (Button)findViewById(R.id.button_permission);
+        anh = (ImageView)findViewById(R.id.imageView);
+        toolbar_diemdanh = (Toolbar) findViewById(R.id.toolbar_diemdanh);
+        txt_start1 = (TextView)findViewById(R.id.tv_start1);
+        txt_classroom1 = (TextView)findViewById(R.id.tv_classroom1);
+        txt_shift= (TextView)findViewById(R.id.shift);
     }
 
 
@@ -211,7 +207,8 @@ public class DiemDanh extends AppCompatActivity {
                 }
                 Intent intent = new Intent(DiemDanh.this,List_Attendance.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("eventID", txt_giangvien.getText().toString());
+//                intent.putExtra("eventID", txt_giangvien.getText().toString());
+                intent.putExtra("eventID", event_id);
                 intent.putExtra("studentSet", (Serializable) attendedSet);
                 intent.putExtra("hasAttendedStudentList", true);
                 startActivity(intent);

@@ -1,4 +1,4 @@
-package com.example.attendance;
+package com.example.attendance.ui.Other;
 
 import java.security.cert.CertificateException;
 

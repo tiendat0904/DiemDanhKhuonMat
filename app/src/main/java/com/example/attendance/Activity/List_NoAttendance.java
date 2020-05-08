@@ -1,4 +1,4 @@
-package com.example.attendance;
+package com.example.attendance.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,10 +15,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.attendance.API.Student_API;
-import com.example.attendance.ui.home.HomeFragment;
+import com.example.attendance.Adapter.Student_NoAttendance_Adapter;
+import com.example.attendance.R;
+import com.example.attendance.Model.Student;
+import com.example.attendance.ui.Other.UnsafeOkHttpClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -133,7 +135,7 @@ public class List_NoAttendance extends AppCompatActivity {
         btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(List_NoAttendance.this,Attendance_Success.class);
+                Intent intent = new Intent(List_NoAttendance.this, Attendance_Success.class);
                 //intent.putExtra("eventId",eventId);
                 startActivity(intent);
             }

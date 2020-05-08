@@ -12,25 +12,27 @@
     android:paddingBottom="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/nav_header_desc"
+    //android:contentDescription="@string/nav_header_desc"
         android:paddingTop="8dp"
         app:srcCompat="@mipmap/ic_launcher_round" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="99dp"
+        android:layout_height="91dp"
+        android:background="@drawable/gtvt"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="@string/nav_header_title"
+        android:text="Trường đại học giao thông vận tải"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="378dp"
         android:layout_height="wrap_content"
-        android:text="@string/nav_header_subtitle" />
+        android:text="nơi sản sinh ra các nhân tài của đất nước" />
 
 </LinearLayout>

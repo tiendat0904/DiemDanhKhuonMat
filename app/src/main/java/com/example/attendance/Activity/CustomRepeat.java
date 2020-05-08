@@ -1,4 +1,4 @@
-package com.example.attendance;
+package com.example.attendance.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.attendance.R;
 import com.google.android.material.chip.Chip;
 
 public class CustomRepeat extends AppCompatActivity {
