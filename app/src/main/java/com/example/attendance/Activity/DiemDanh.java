@@ -177,6 +177,7 @@ public class DiemDanh extends AppCompatActivity {
         return byteArray;
     }
     private void sendImageToServer() {
+        Bundle extras = getIntent().getExtras();
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), this.tempFile);
         MultipartBody.Part fbody =  MultipartBody.Part.createFormData("file", this.tempFile.getName(), requestBody);
@@ -208,8 +209,10 @@ public class DiemDanh extends AppCompatActivity {
                 Intent intent = new Intent(DiemDanh.this,List_Attendance.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                intent.putExtra("eventID", txt_giangvien.getText().toString());
+                String subjectClassID = extras.getString("sujectclass");
                 intent.putExtra("eventID", event_id);
                 intent.putExtra("studentSet", (Serializable) attendedSet);
+                intent.putExtra("subjectClassID", subjectClassID);
                 intent.putExtra("hasAttendedStudentList", true);
                 startActivity(intent);
             }

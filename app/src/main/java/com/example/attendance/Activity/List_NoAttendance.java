@@ -135,8 +135,10 @@ public class List_NoAttendance extends AppCompatActivity {
         btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle extras = getIntent().getExtras();
                 Intent intent = new Intent(List_NoAttendance.this, Attendance_Success.class);
-                //intent.putExtra("eventId",eventId);
+                intent.putExtra("eventID",eventId);
+                intent.putExtra("subjectClassID", extras.getString("subjectClassID"));
                 startActivity(intent);
             }
         });

@@ -76,8 +76,11 @@ public class List_Attendance extends AppCompatActivity {
         btn_accecpt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle extras = getIntent().getExtras();
+                String subjectClassID = extras.getString("sujectclass");
                 Intent intent = new Intent(List_Attendance.this, List_NoAttendance.class);
                 intent.putExtra("eventID",eventId);
+                intent.putExtra("subjectClassID", subjectClassID);
                 intent.putExtra("hasAttendedStudentList",(Serializable)attendedStudentSet);
                 startActivity(intent);
             }
