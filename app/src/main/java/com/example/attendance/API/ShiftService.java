@@ -10,4 +10,5 @@ import retrofit2.http.GET;
 public interface ShiftService {
     @GET("Shifts")
     Call<List<Shift>> getShift();
+
 }

@@ -1,8 +1,12 @@
 package com.example.attendance.Model;
 
 import java.sql.Time;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 
 public class Shift {
@@ -26,10 +30,17 @@ public class Shift {
     }
 
     public String getShiftStart() {
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.ENGLISH);
-        LocalDate date = LocalDate.parse(shiftStart.toString(), inputFormatter);
-        String formattedDate = outputFormatter.format(date);
+       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:s");
+//        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+        Format f = new SimpleDateFormat("HH:mm:ss'Z'");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(shiftStart);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+//        LocalDate date = LocalDate.parse(shiftStart.toString(), inputFormatter);
+        String formattedDate = f.format(date);
         return formattedDate;
     }
 
@@ -38,10 +49,17 @@ public class Shift {
     }
 
     public String getShiftEnd() {
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.ENGLISH);
-        LocalDate date = LocalDate.parse(shiftEnd.toString(), inputFormatter);
-        String formattedDate = outputFormatter.format(date);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:s");
+//        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+        Format f = new SimpleDateFormat("HH:mm:ss'Z'");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(shiftEnd);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+//        LocalDate date = LocalDate.parse(shiftStart.toString(), inputFormatter);
+        String formattedDate = f.format(date);
         return formattedDate;
     }
 

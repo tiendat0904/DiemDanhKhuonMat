@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.attendance.API.Event_API;
 import com.example.attendance.API.APIService;
+import com.example.attendance.Model.Event_Details;
 import com.example.attendance.Model.Event_Post;
 import com.example.attendance.Model.Shift;
 import com.example.attendance.R;
@@ -75,6 +76,8 @@ public class Add_Lesson extends AppCompatActivity {
     Button btn_chonlich, btn_xacnhan,btn_x;
     Spinner spinner_luachon, spinner_lop, spinner_ca;
     ArrayList<String> list_luachon;
+    ArrayList<Shift> arrayListShift = new ArrayList<>();
+    ArrayList<SubjectClass> arrayListClass= new ArrayList<>();
     ArrayList<SubjectClass> list_class = new ArrayList<>();
     SimpleDateFormat fmtDateAndTime = new SimpleDateFormat("yyyy-MM-dd");
     ArrayList<String> get_sujectclass=get_sujectclass = new ArrayList<>();
@@ -100,7 +103,6 @@ public class Add_Lesson extends AppCompatActivity {
         setContentView(R.layout.activity_add__lesson);
         anhxa();
         setSpinner();
-       // get_shift = new ArrayList<>();
         get_Class();
         get_Shift();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list_luachon);
@@ -137,8 +139,7 @@ public class Add_Lesson extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 lop = position;
-                lophoc ="NO"+position;
-//                Toast.makeText(getApplicationContext(), lop + "", Toast.LENGTH_LONG).show();
+           //     lophoc =arrayListClass.get(position).getSubjectClassName();
             }
 
 
@@ -261,25 +262,38 @@ public class Add_Lesson extends AppCompatActivity {
         Date cuoicung=null;
         long startMillis = 0;
         long endMillis = 0;
+        Date startshift=null;
+        Date endshiff=null;
+        String millis_start=arrayListShift.get(ca).getShiftStart();
+        String millis_end=arrayListShift.get(ca).getShiftEnd();
+        int thu=0;
+        String thungay="";
         if(luachonlap=="Hàng Tuần")
         {
            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//           SimpleDateFormat format1=new SimpleDateFormat("yyyyMMdd'T'");
+
             Date date=null;
-            Date date1=null;
-            int thu=0;
+
             try {
                 date =format.parse(editText_ngay.getText().toString());
+                startshift=format.parse(editText_ngay.getText().toString()+"'T'"+millis_start);
+                endshiff=format.parse(editText_ngay.getText().toString()+"'T'"+millis_end);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Calendar c1= Calendar.getInstance();
-            c1.setTime(date);
-            startMillis=c1.getTimeInMillis();
-            hientai=c1.getTime();
-            thu=c1.get(Calendar.DAY_OF_WEEK);
-            c1.add(Calendar.YEAR,1);
-            endMillis=c1.getTimeInMillis();
-            cuoicung=c1.getTime();
+            Calendar beginTime= Calendar.getInstance();
+            beginTime.setTime(date);
+//            startMillis=beginTime.getTimeInMillis();
+            hientai=beginTime.getTime();
+//            thu=beginTime.get(Calendar.DAY_OF_WEEK);
+//            if(thu==2)
+//            {
+//
+//            }
+            beginTime.add(Calendar.YEAR,1);
+//            endMillis=beginTime.getTimeInMillis();
+            cuoicung=beginTime.getTime();
             dateTime=DateTime.parseRfc3339(editText_ngay.getText().toString());
             OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
             Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
@@ -301,43 +315,32 @@ public class Add_Lesson extends AppCompatActivity {
                 }
             });
             verifyPermission();
-            Cursor cur = null;
+            int calID = getCalendarId();
+            long startmillis = 0;
+            long endmillis = 0;
+            Calendar c1= Calendar.getInstance();
+           c1.setTime(startshift);
+           startmillis=c1.getTimeInMillis();
+           Calendar c2= Calendar.getInstance();
+           c2.setTime(endshiff);
+           endmillis=c2.getTimeInMillis();
             ContentResolver cr = getContentResolver();
-            Uri uri = CalendarContract.Calendars.CONTENT_URI;
-            String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
-                    + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
-                    + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
-            String[] selectionArgs = new String[]{"hasagidzo@gmail.com", "com.google",
-                    "hasagidzo@gmail.com"};
-            long calID = 0;
-            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
-            while (cur.moveToNext()) {
-                String displayName = null;
-                String accountName = null;
-                String ownerName = null;
-                // Get the field values
-                calID = cur.getLong(PROJECTION_ID_INDEX);
-                String title = "Lớp : " + lop + "\n Ca :" + ca;
-                ContentValues values = new ContentValues();
-                values.put(CalendarContract.Events.DTSTART, startMillis);
-                values.put(CalendarContract.Events.DTEND, endMillis);
-                values.put(CalendarContract.Events.TITLE, "Lớp :" + lophoc);
-                values.put(CalendarContract.Events.DESCRIPTION, title);
-                values.put(CalendarContract.Events.CALENDAR_ID, calID);
-                values.put(CalendarContract.Events.RRULE, "FREQ=WEEKLY;WKST ="+thu);
-                values.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
-                Uri uri2 = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-
-// get the event ID that is the last element in the Uri
-                long eventID = Long.parseLong(uri2.getLastPathSegment());
-            }
+            ContentValues values = new ContentValues();
+            values.put(CalendarContract.Events.DTSTART,startmillis);
+            values.put(CalendarContract.Events.DTEND, endmillis);
+            values.put(CalendarContract.Events.TITLE, "Lop : N0"+lop);
+            values.put(CalendarContract.Events.RRULE,"FREQ=WEEKLY");
+            values.put(CalendarContract.Events.DESCRIPTION,"Lop: N0"+lop+"\nCa :"+ca);
+            values.put(CalendarContract.Events.CALENDAR_ID, calID);
+            values.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
+            Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
             while (hientai.before(cuoicung))
             {
-                c1.setTime(date);
-                c1.add(Calendar.DATE,7);
-                String a = format.format(c1.getTime());
-                hientai = c1.getTime();
-                date=c1.getTime();
+                beginTime.setTime(date);
+                beginTime.add(Calendar.DATE,7);
+                String a = format.format(beginTime.getTime());
+                hientai = beginTime.getTime();
+                date=beginTime.getTime();
                 if(hientai.after(cuoicung))
                 {
                     break;
@@ -359,25 +362,34 @@ public class Add_Lesson extends AppCompatActivity {
                     }
                 });
             }
+
         }
         else if(luachonlap=="Hàng Ngày")
         {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//           SimpleDateFormat format1=new SimpleDateFormat("yyyyMMdd'T'");
+
             Date date=null;
-            Date date1=null;
 
             try {
                 date =format.parse(editText_ngay.getText().toString());
+                startshift=format.parse(editText_ngay.getText().toString()+"'T'"+millis_start);
+                endshiff=format.parse(editText_ngay.getText().toString()+"'T'"+millis_end);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Calendar c1= Calendar.getInstance();
-            c1.setTime(date);
-            startMillis=c1.getTimeInMillis();
-            hientai=c1.getTime();
-            c1.add(Calendar.YEAR,1);
-            endMillis=c1.getTimeInMillis();
-            cuoicung=c1.getTime();
+            Calendar beginTime= Calendar.getInstance();
+            beginTime.setTime(date);
+//            startMillis=beginTime.getTimeInMillis();
+            hientai=beginTime.getTime();
+//            thu=beginTime.get(Calendar.DAY_OF_WEEK);
+//            if(thu==2)
+//            {
+//
+//            }
+            beginTime.add(Calendar.YEAR,1);
+//            endMillis=beginTime.getTimeInMillis();
+            cuoicung=beginTime.getTime();
             dateTime=DateTime.parseRfc3339(editText_ngay.getText().toString());
             OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
             Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
@@ -399,35 +411,25 @@ public class Add_Lesson extends AppCompatActivity {
                 }
             });
             verifyPermission();
-            Cursor cur = null;
+            int calID = getCalendarId();
+            long startmillis = 0;
+            long endmillis = 0;
+            Calendar c1= Calendar.getInstance();
+            c1.setTime(startshift);
+            startmillis=c1.getTimeInMillis();
+            Calendar c2= Calendar.getInstance();
+            c2.setTime(endshiff);
+            endmillis=c2.getTimeInMillis();
             ContentResolver cr = getContentResolver();
-            Uri uri = CalendarContract.Calendars.CONTENT_URI;
-            String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
-                    + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
-                    + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
-            String[] selectionArgs = new String[]{"hasagidzo@gmail.com", "com.google",
-                    "hasagidzo@gmail.com"};
-            long calID = 0;
-            cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
-            while (cur.moveToNext()) {
-                String displayName = null;
-                String accountName = null;
-                String ownerName = null;
-                // Get the field values
-                calID = cur.getLong(PROJECTION_ID_INDEX);
-                String title = "Lớp : "+lop+"\n Ca :"+ca;
-                ContentValues values = new ContentValues();
-                values.put(CalendarContract.Events.DTSTART, startMillis);
-                values.put(CalendarContract.Events.DTEND, endMillis);
-                values.put(CalendarContract.Events.TITLE, "Lớp :"+lophoc);
-                values.put(CalendarContract.Events.DESCRIPTION, title);
-                values.put(CalendarContract.Events.CALENDAR_ID, calID);
-                values.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
-                Uri uri2 = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-
-// get the event ID that is the last element in the Uri
-                long eventID = Long.parseLong(uri2.getLastPathSegment());
-            }
+            ContentValues values = new ContentValues();
+            values.put(CalendarContract.Events.DTSTART,startmillis);
+            values.put(CalendarContract.Events.DTEND, endmillis);
+            values.put(CalendarContract.Events.TITLE, "Lop : N0"+lop);
+            values.put(CalendarContract.Events.RRULE,"FREQ=DAILY");
+            values.put(CalendarContract.Events.DESCRIPTION,"Lop: N0"+lop+"\nCa :"+ca);
+            values.put(CalendarContract.Events.CALENDAR_ID, calID);
+            values.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
+            Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
             while (hientai.before(cuoicung))
             {
                 c1.setTime(date);
@@ -469,7 +471,6 @@ public class Add_Lesson extends AppCompatActivity {
             }
             Calendar c1= Calendar.getInstance();
             c1.setTime(date);
-            int thungay =c1.get(Calendar.DAY_OF_WEEK);
             hientai=c1.getTime();
             c1.add(Calendar.YEAR,1);
             cuoicung=c1.getTime();
@@ -524,6 +525,25 @@ public class Add_Lesson extends AppCompatActivity {
         }
     }
 
+    private int getCalendarId() {
+        Cursor cur = null;
+        ContentResolver cr = getContentResolver();
+        Uri uri = CalendarContract.Calendars.CONTENT_URI;
+        String selection = "((" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?) AND ("
+                + CalendarContract.Calendars.ACCOUNT_TYPE + " = ?) AND ("
+                + CalendarContract.Calendars.OWNER_ACCOUNT + " = ?))";
+        String[] selectionArgs = new String[]{"hasagidzo@gmail.com", "com.google",
+                "hasagidzo@gmail.com"};
+        int calID = 0;
+        cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+        // Get the field values
+        cur.moveToFirst();
+        calID = cur.getInt(PROJECTION_ID_INDEX);
+        String title = "Lớp : " + lop + "\n Ca :" + ca;
+        ContentValues values = new ContentValues();
+        return calID;
+    }
+
     private void get_Shift() {
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
@@ -541,6 +561,7 @@ public class Add_Lesson extends AppCompatActivity {
                     }
                     return;
                 }
+                arrayListShift= (ArrayList<Shift>) response.body();
                 List<Shift> shifts = response.body();
                 get_shift.add("");
                 for(Shift shift : shifts){
@@ -575,6 +596,7 @@ public class Add_Lesson extends AppCompatActivity {
                     }
                     return;
                 }
+                arrayListClass= (ArrayList<SubjectClass>) response.body();
                 List<SubjectClass> classes = response.body();
                 get_sujectclass.add("");
                 for(SubjectClass classes1 : classes){
