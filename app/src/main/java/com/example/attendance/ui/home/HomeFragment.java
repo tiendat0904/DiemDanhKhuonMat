@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendance.Activity.Add_Lesson;
+import com.example.attendance.Common.Const;
 import com.example.attendance.Model.Event_Details;
 import com.example.attendance.R;
 import com.example.attendance.Adapter.ShopAdapter;
@@ -83,7 +84,7 @@ public class HomeFragment extends Fragment {
 
     private void getDate() {
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/Events/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME+"Events/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         list_event_details=new ArrayList<>();
         Event_details class_Service =retrofit.create(Event_details.class);
@@ -100,6 +101,7 @@ public class HomeFragment extends Fragment {
                     return;
                 }
                 List<Event_Details> event_details = response.body();
+                Integer a= event_details.get(1).getSubjectClassID();
                 cld.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
@@ -109,19 +111,20 @@ public class HomeFragment extends Fragment {
                         ArrayList<Event_Details> event_details1 = new ArrayList<>();
                         for(int j=0;j<event_details.size();j++)
                         {
-                            String[] str = event_details.get(j).getDateTime().split("\\-");
-                            if( i2==Integer.parseInt(str[0])  && i1==(Integer.parseInt(str[1]) -1) &&   i==Integer.parseInt(str[2]))
-                            {
-
-
-                                event_details1.add(new Event_Details(event_details.get(j).getSubjectClassName(),event_details.get(j).getDateTime(),event_details.get(j).getShiftName(),event_details.get(j).getEventID()));
+                                String[] str = event_details.get(j).getDateTime().split("\\-");
+                                if( i2==Integer.parseInt(str[0])  && i1==(Integer.parseInt(str[1]) -1) &&   i==Integer.parseInt(str[2]))
+                                {
+                                    event_details1.add(new Event_Details(event_details.get(j).getSubjectClassName(),
+                                            event_details.get(j).getDateTime(),
+                                            event_details.get(j).getShiftName(),
+                                            event_details.get(j).getEventID(),
+                                            event_details.get(j).getSubjectClassID(),
+                                            event_details.get(j).getStatus()));
 
                             }
                         }
                         ShopAdapter shopAdapter = new ShopAdapter(event_details1,getActivity());
                         recyclerView.setAdapter(shopAdapter);
-
-
                     }
                 });
             }

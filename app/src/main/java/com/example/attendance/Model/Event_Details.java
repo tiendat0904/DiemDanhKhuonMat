@@ -1,6 +1,7 @@
 package com.example.attendance.Model;
 
 
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -10,7 +11,18 @@ import java.util.Locale;
 
 public class Event_Details {
     private String subjectClassName;
+    private Integer subjectClassID;
     private String dateTime;
+
+    public int getStatus() {
+        return status;
+    }
+
+    private int status;
+    public Integer getSubjectClassID() {
+        return subjectClassID;
+    }
+
     private String shiftName;
     private String eventID;
     public String getEventID() {
@@ -23,11 +35,13 @@ public class Event_Details {
 
 
 
-    public Event_Details(String subjectClassName, String dateTime, String shiftName,String eventID) {
+    public Event_Details(String subjectClassName, String dateTime, String shiftName,String eventID, Integer subjectClassID, int status) {
         this.subjectClassName = subjectClassName;
         this.dateTime = dateTime;
         this.shiftName = shiftName;
         this.eventID = eventID;
+        this.subjectClassID = subjectClassID;
+        this.status = status;
     }
 
     public String getSubjectClassName() {
@@ -43,18 +57,17 @@ public class Event_Details {
 //        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
 //        LocalDate date = LocalDate.parse(dateTime, inputFormatter);
 //        String formattedDate = outputFormatter.format(date);
-//        return formattedDate;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-        Date date=null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:s");
+        Format f = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = null;
         try {
-             date = format.parse(dateTime);
+            date = simpleDateFormat.parse(dateTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String datetime=format1.format(date);
-        return dateTime;
-
+//        LocalDate date = LocalDate.parse(shiftStart.toString(), inputFormatter);
+        String formattedDate = f.format(date);
+        return formattedDate;
     }
     public String getDateTime1()
     {

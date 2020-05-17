@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.attendance.API.Student_API;
 import com.example.attendance.Adapter.Student_NoAttendance_Adapter;
+import com.example.attendance.Common.Const;
 import com.example.attendance.R;
 import com.example.attendance.Model.Student;
 import com.example.attendance.ui.Other.UnsafeOkHttpClient;
@@ -70,7 +71,7 @@ public class List_NoAttendance extends AppCompatActivity {
 ////            }
 ////        }
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/Events/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME+"Events/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         Student_API student_Service =retrofit.create(Student_API.class);
         Call<List<Student>> call = student_Service.getStudent(eventId);
@@ -135,8 +136,10 @@ public class List_NoAttendance extends AppCompatActivity {
         btn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle extras = getIntent().getExtras();
                 Intent intent = new Intent(List_NoAttendance.this, Attendance_Success.class);
-                //intent.putExtra("eventId",eventId);
+                intent.putExtra("eventID",eventId);
+                intent.putExtra("subjectClassID", extras.getInt("subjectClassID"));
                 startActivity(intent);
             }
         });

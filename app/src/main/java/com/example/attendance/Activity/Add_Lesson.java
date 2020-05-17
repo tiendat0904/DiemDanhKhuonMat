@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.attendance.API.Event_API;
 import com.example.attendance.API.APIService;
+import com.example.attendance.Common.Const;
 import com.example.attendance.Model.Event_Details;
 import com.example.attendance.Model.Event_Post;
 import com.example.attendance.Model.Shift;
@@ -285,7 +286,7 @@ public class Add_Lesson extends AppCompatActivity {
             cuoicung = beginTime.getTime();
             dateTime = DateTime.parseRfc3339(editText_ngay.getText().toString());
             OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME).client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create()).build();
             Event_API event_api = retrofit.create(Event_API.class);
             String json = "{\n" +
@@ -387,7 +388,7 @@ public class Add_Lesson extends AppCompatActivity {
             cuoicung=beginTime.getTime();
             dateTime=DateTime.parseRfc3339(editText_ngay.getText().toString());
             OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME).client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create()).build();
             Event_API event_api =retrofit.create(Event_API.class);
             String json ="{\n" +
@@ -471,7 +472,7 @@ public class Add_Lesson extends AppCompatActivity {
             cuoicung=c1.getTime();
             dateTime=DateTime.parseRfc3339(editText_ngay.getText().toString());
             OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-            Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME).client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create()).build();
             Event_API event_api =retrofit.create(Event_API.class);
             String json ="{\n" +
@@ -541,7 +542,7 @@ public class Add_Lesson extends AppCompatActivity {
 
     private void get_Shift() {
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME).client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         ShiftService class_Service =retrofit.create(ShiftService.class);
         Call<List<Shift>> call = class_Service.getShift();
@@ -576,7 +577,7 @@ public class Add_Lesson extends AppCompatActivity {
 
     private void get_Class() {
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME).client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         APIService class_Service =retrofit.create(APIService.class);
         Call<List<SubjectClass>> call = class_Service.getCSubjectClass();
