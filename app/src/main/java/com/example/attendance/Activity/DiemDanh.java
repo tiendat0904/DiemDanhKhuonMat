@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.attendance.API.IdentifyAPI;
+import com.example.attendance.Common.Const;
 import com.example.attendance.Model.StudentDTO;
 import com.example.attendance.R;
 import com.example.attendance.ui.Other.UnsafeOkHttpClient;
@@ -181,7 +182,7 @@ public class DiemDanh extends AppCompatActivity {
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), this.tempFile);
         MultipartBody.Part fbody =  MultipartBody.Part.createFormData("file", this.tempFile.getName(), requestBody);
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME).client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         IdentifyAPI identifyAPI =retrofit.create(IdentifyAPI.class);
         Call<List<StudentDTO>> call = identifyAPI.identifyPerson(fbody);
@@ -209,7 +210,7 @@ public class DiemDanh extends AppCompatActivity {
                 Intent intent = new Intent(DiemDanh.this,List_Attendance.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                intent.putExtra("eventID", txt_giangvien.getText().toString());
-                String subjectClassID = extras.getString("sujectclass");
+                Integer subjectClassID = extras.getInt("subjectClassID");
                 intent.putExtra("eventID", event_id);
                 intent.putExtra("studentSet", (Serializable) attendedSet);
                 intent.putExtra("subjectClassID", subjectClassID);

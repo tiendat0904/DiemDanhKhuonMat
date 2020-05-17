@@ -30,6 +30,7 @@
         <activity android:name=".Activity.List_NoAttendance" />
         <activity android:name=".Activity.List_Attendance" />
         <activity android:name=".Activity.DiemDanh" />
+        <activity android:name=".Activity.AttendedStudentList"></activity>
         <activity android:name=".ui.Other.monthCalendar" />
         <activity android:name=".Adapter.ShopAdapter" />
         <activity android:name=".ui.Other.calendarWeek" />

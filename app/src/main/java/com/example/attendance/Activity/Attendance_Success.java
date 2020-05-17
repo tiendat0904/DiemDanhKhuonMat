@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.attendance.API.AttendanceDetailsService;
 import com.example.attendance.API.Student_API;
+import com.example.attendance.Common.Const;
 import com.example.attendance.Model.AttendanceDetail;
 import com.example.attendance.Model.Event_Post;
 import com.example.attendance.R;
@@ -34,7 +35,7 @@ public class Attendance_Success extends AppCompatActivity {
     ArrayList<Student> list_no_attendance = new ArrayList<>();
     int dihoc=0,khongdihoc=0;
     String eventId="";
-    String subjectClassID = "";
+    Integer subjectClassID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class Attendance_Success extends AppCompatActivity {
         btn_thoat = (Button)findViewById(R.id.button_thoat);
         Bundle extras = getIntent().getExtras();
         this.eventId = extras.getString("eventID");
-        this.subjectClassID = extras.getString("subjectClassID");
+        this.subjectClassID = extras.getInt("subjectClassID");
 
         for (Student student : List_Attendance.studentArrList){
             if (!student.isDihoc()){
@@ -64,7 +65,7 @@ public class Attendance_Success extends AppCompatActivity {
         });
     }
 
-    private void createAttendanceDetails(String eventId, String subjectClassID) {
+    private void createAttendanceDetails(String eventId, Integer subjectClassID) {
         ArrayList<Student> attendedStudentList = new  ArrayList<Student>();
         for(int i = 0; i<List_Attendance.studentArrList.size(); i++){
             if(List_Attendance.studentArrList.get(i).isDihoc() == true){
@@ -73,12 +74,13 @@ public class Attendance_Success extends AppCompatActivity {
             }
         }
         AttendanceDetail attendanceDetail = new AttendanceDetail();
-        attendanceDetail.eventID = eventId;
-        attendanceDetail.subjectClassID = subjectClassID;
-        attendanceDetail.studentList = attendedStudentList;
+        attendanceDetail.setEventID(Integer.parseInt(eventId));
+//        attendanceDetail.setSubjectClassID(Integer.parseInt(subjectClassID));
+        attendanceDetail.setSubjectClassID(subjectClassID);
+        attendanceDetail.setStudentList(attendedStudentList);
 
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/AttendanceDetails/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME + "AttendanceDetails/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         AttendanceDetailsService attendanceDetailsService =retrofit.create(AttendanceDetailsService.class);
         attendanceDetailsService.Create(attendanceDetail).enqueue(new Callback() {

@@ -1,28 +1,44 @@
 package com.example.attendance.Model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class AttendanceDetail {
-    public String eventID;
+    @SerializedName("eventID")
+    @Expose
+    private Integer eventID;
+    @SerializedName("studentList")
+    @Expose
+    private List<Student> studentList = null;
+    @SerializedName("subjectClassID")
+    @Expose
+    private Integer subjectClassID;
 
-    public String getEventID() {
+    public Integer getEventID() {
         return eventID;
     }
 
-    public String getSubjectClassID() {
-        return subjectClassID;
+    public void setEventID(Integer eventID) {
+        this.eventID = eventID;
     }
 
-    public boolean isAttend() {
-        return isAttend;
-    }
-
-    public String subjectClassID;
-
-    public ArrayList<Student> getStudentList() {
+    public List<Student> getStudentList() {
         return studentList;
     }
 
-    public ArrayList<Student> studentList;
-    public boolean isAttend;
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
+    }
+
+    public Integer getSubjectClassID() {
+        return subjectClassID;
+    }
+
+    public void setSubjectClassID(Integer subjectClassID) {
+        this.subjectClassID = subjectClassID;
+    }
 }
+
