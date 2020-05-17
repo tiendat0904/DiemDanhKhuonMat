@@ -60,28 +60,28 @@ public class Add_Lesson extends AppCompatActivity {
 //            CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
     };
     private static final int PROJECTION_ID_INDEX = 0;
-//    private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
+    //    private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
 //    private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
 //    private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
     private int REQUEST_ID_IMAGE_CAPTURE = 100;
     private int REQUEST_ID_IMAGE_CAPTURE_write = 101;
     APIService mAPIService;
     TextView editText_ngay;
-    String a;
-    String luachonlap;
-    String txtT2, txtT3, txtT4, txtT5, txtT6, txtT7, txtCN, kieulap, solanlapmoituan;
+    //    String a;
+////    String luachonlap;
+    String txtT2, txtT3, txtT4, txtT5, txtT6, txtT7, txtCN, kieulap, solanlapmoituan, a, luachonlap, lophoc;
     int ca, lop;
-    String lophoc;
+    //    String lophoc;
     DateTime dateTime = null;
-    Button btn_chonlich, btn_xacnhan,btn_x;
+    Button btn_chonlich, btn_xacnhan, btn_x;
     Spinner spinner_luachon, spinner_lop, spinner_ca;
     ArrayList<String> list_luachon;
     ArrayList<Shift> arrayListShift = new ArrayList<>();
-    ArrayList<SubjectClass> arrayListClass= new ArrayList<>();
+    ArrayList<SubjectClass> arrayListClass = new ArrayList<>();
     ArrayList<SubjectClass> list_class = new ArrayList<>();
     SimpleDateFormat fmtDateAndTime = new SimpleDateFormat("yyyy-MM-dd");
-    ArrayList<String> get_sujectclass=get_sujectclass = new ArrayList<>();
-    ArrayList<String> get_shift= new ArrayList<>();
+    ArrayList<String> get_sujectclass = new ArrayList<>();
+    ArrayList<String> get_shift = new ArrayList<>();
     Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view,
@@ -139,7 +139,7 @@ public class Add_Lesson extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 lop = position;
-           //     lophoc =arrayListClass.get(position).getSubjectClassName();
+                //     lophoc =arrayListClass.get(position).getSubjectClassName();
             }
 
 
@@ -195,7 +195,7 @@ public class Add_Lesson extends AppCompatActivity {
         spinner_luachon = (Spinner) findViewById(R.id.spinner_luachon);
         spinner_lop = (Spinner) findViewById(R.id.spinner_lop);
         spinner_ca = (Spinner) findViewById(R.id.spinner_ca);
-        btn_x=(Button)findViewById(R.id.button_x);
+        btn_x = (Button) findViewById(R.id.button_x);
         btn_x.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,27 +213,21 @@ public class Add_Lesson extends AppCompatActivity {
 
     private void verifyPermission() {
         final int permission_camera = ContextCompat.checkSelfPermission(Add_Lesson.this, Manifest.permission.READ_CALENDAR);
-        final int permission_camera_write = ContextCompat.checkSelfPermission(Add_Lesson.this,Manifest.permission.WRITE_CALENDAR);
-        if(permission_camera != PackageManager.PERMISSION_GRANTED) {
-            if(ActivityCompat.shouldShowRequestPermissionRationale(Add_Lesson.this,Manifest.permission.READ_CALENDAR))
-            {
+        final int permission_camera_write = ContextCompat.checkSelfPermission(Add_Lesson.this, Manifest.permission.WRITE_CALENDAR);
+        if (permission_camera != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(Add_Lesson.this, Manifest.permission.READ_CALENDAR)) {
                 ActivityCompat.requestPermissions(Add_Lesson.this, new String[]{Manifest.permission.READ_CALENDAR},
                         REQUEST_ID_IMAGE_CAPTURE);
-            }
-            else
-            {
+            } else {
                 ActivityCompat.requestPermissions(Add_Lesson.this, new String[]{Manifest.permission.READ_CALENDAR},
                         REQUEST_ID_IMAGE_CAPTURE_write);
             }
         }
-        if(permission_camera_write != PackageManager.PERMISSION_GRANTED) {
-            if(ActivityCompat.shouldShowRequestPermissionRationale(Add_Lesson.this,Manifest.permission.WRITE_CALENDAR))
-            {
+        if (permission_camera_write != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(Add_Lesson.this, Manifest.permission.WRITE_CALENDAR)) {
                 ActivityCompat.requestPermissions(Add_Lesson.this, new String[]{Manifest.permission.WRITE_CALENDAR},
                         REQUEST_ID_IMAGE_CAPTURE_write);
-            }
-            else
-            {
+            } else {
                 ActivityCompat.requestPermissions(Add_Lesson.this, new String[]{Manifest.permission.WRITE_CALENDAR},
                         REQUEST_ID_IMAGE_CAPTURE_write);
             }
@@ -258,57 +252,53 @@ public class Add_Lesson extends AppCompatActivity {
     }
 
     private void addEvent() {
-        Date hientai=null;
-        Date cuoicung=null;
+        Date hientai = null;
+        Date cuoicung = null;
         long startMillis = 0;
         long endMillis = 0;
-        Date startshift=null;
-        Date endshiff=null;
-        String millis_start=arrayListShift.get(ca).getShiftStart();
-        String millis_end=arrayListShift.get(ca).getShiftEnd();
-        int thu=0;
-        String thungay="";
-        if(luachonlap=="Hàng Tuần")
-        {
-           SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date startshift = null;
+        Date endshiff = null;
+        String millis_start = arrayListShift.get(ca).getShiftStart();
+        String millis_end = arrayListShift.get(ca).getShiftEnd();
+        int thu = 0;
+        String thungay = "";
+        if (luachonlap == "Hàng Tuần") {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 //           SimpleDateFormat format1=new SimpleDateFormat("yyyyMMdd'T'");
 
-            Date date=null;
+            Date date = null;
 
             try {
-                date =format.parse(editText_ngay.getText().toString());
-                startshift=format.parse(editText_ngay.getText().toString()+"'T'"+millis_start);
-                endshiff=format.parse(editText_ngay.getText().toString()+"'T'"+millis_end);
+                date = format.parse(editText_ngay.getText().toString());
+                startshift = format.parse(editText_ngay.getText().toString() + "'T'" + millis_start);
+                endshiff = format.parse(editText_ngay.getText().toString() + "'T'" + millis_end);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Calendar beginTime= Calendar.getInstance();
+            Calendar beginTime = Calendar.getInstance();
             beginTime.setTime(date);
 //            startMillis=beginTime.getTimeInMillis();
-            hientai=beginTime.getTime();
-//            thu=beginTime.get(Calendar.DAY_OF_WEEK);
-//            if(thu==2)
-//            {
-//
-//            }
-            beginTime.add(Calendar.YEAR,1);
+            hientai = beginTime.getTime();
+
+            beginTime.add(Calendar.YEAR, 1);
 //            endMillis=beginTime.getTimeInMillis();
-            cuoicung=beginTime.getTime();
-            dateTime=DateTime.parseRfc3339(editText_ngay.getText().toString());
+            cuoicung = beginTime.getTime();
+            dateTime = DateTime.parseRfc3339(editText_ngay.getText().toString());
             OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
             Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2:64535/api/").client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create()).build();
-            Event_API event_api =retrofit.create(Event_API.class);
-            String json ="{\n" +
-                    "    \"shiftID\": "+ca+",\n" +
-                    "    \"subjectClassID\":"+lop+",\n" +
-                    "    \"dateTime\": \""+dateTime+"\"\n" +
+            Event_API event_api = retrofit.create(Event_API.class);
+            String json = "{\n" +
+                    "    \"shiftID\": " + ca + ",\n" +
+                    "    \"subjectClassID\":" + lop + ",\n" +
+                    "    \"dateTime\": \"" + dateTime + "\"\n" +
                     "}";
-            RequestBody requestBody =RequestBody.create(MediaType.parse("application/json"),json);
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), json);
             event_api.Postdata(requestBody).enqueue(new Callback<Event_Post>() {
                 @Override
                 public void onResponse(Call<Event_Post> call, Response<Event_Post> response) {
                 }
+
                 @Override
                 public void onFailure(Call<Event_Post> call, Throwable t) {
 
@@ -318,22 +308,32 @@ public class Add_Lesson extends AppCompatActivity {
             int calID = getCalendarId();
             long startmillis = 0;
             long endmillis = 0;
-            Calendar c1= Calendar.getInstance();
-           c1.setTime(startshift);
-           startmillis=c1.getTimeInMillis();
-           Calendar c2= Calendar.getInstance();
-           c2.setTime(endshiff);
-           endmillis=c2.getTimeInMillis();
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(startshift);
+            startmillis = c1.getTimeInMillis();
+            Calendar c2 = Calendar.getInstance();
+            c2.setTime(endshiff);
+            endmillis = c2.getTimeInMillis();
             ContentResolver cr = getContentResolver();
             ContentValues values = new ContentValues();
-            values.put(CalendarContract.Events.DTSTART,startmillis);
+            values.put(CalendarContract.Events.DTSTART, startmillis);
             values.put(CalendarContract.Events.DTEND, endmillis);
-            values.put(CalendarContract.Events.TITLE, "Lop : N0"+lop);
-            values.put(CalendarContract.Events.RRULE,"FREQ=WEEKLY");
-            values.put(CalendarContract.Events.DESCRIPTION,"Lop: N0"+lop+"\nCa :"+ca);
+            values.put(CalendarContract.Events.TITLE, "Lop : N0" + lop);
+            values.put(CalendarContract.Events.RRULE, "FREQ=WEEKLY");
+            values.put(CalendarContract.Events.DESCRIPTION, "Lop: N0" + lop + "\nCa :" + ca);
             values.put(CalendarContract.Events.CALENDAR_ID, calID);
             values.put(CalendarContract.Events.EVENT_TIMEZONE, "America/Los_Angeles");
-            Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            cr.insert(CalendarContract.Events.CONTENT_URI, values);
             while (hientai.before(cuoicung))
             {
                 beginTime.setTime(date);
@@ -382,11 +382,6 @@ public class Add_Lesson extends AppCompatActivity {
             beginTime.setTime(date);
 //            startMillis=beginTime.getTimeInMillis();
             hientai=beginTime.getTime();
-//            thu=beginTime.get(Calendar.DAY_OF_WEEK);
-//            if(thu==2)
-//            {
-//
-//            }
             beginTime.add(Calendar.YEAR,1);
 //            endMillis=beginTime.getTimeInMillis();
             cuoicung=beginTime.getTime();
@@ -539,8 +534,8 @@ public class Add_Lesson extends AppCompatActivity {
         // Get the field values
         cur.moveToFirst();
         calID = cur.getInt(PROJECTION_ID_INDEX);
-        String title = "Lớp : " + lop + "\n Ca :" + ca;
-        ContentValues values = new ContentValues();
+      //  String title = "Lớp : " + lop + "\n Ca :" + ca;
+    //    ContentValues values = new ContentValues();
         return calID;
     }
 

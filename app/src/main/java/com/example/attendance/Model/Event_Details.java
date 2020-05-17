@@ -1,11 +1,11 @@
 package com.example.attendance.Model;
 
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 
 public class Event_Details {
@@ -39,11 +39,22 @@ public class Event_Details {
     }
 
     public String getDateTime() {
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
-        LocalDate date = LocalDate.parse(dateTime, inputFormatter);
-        String formattedDate = outputFormatter.format(date);
-        return formattedDate;
+//        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+//        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH);
+//        LocalDate date = LocalDate.parse(dateTime, inputFormatter);
+//        String formattedDate = outputFormatter.format(date);
+//        return formattedDate;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date=null;
+        try {
+             date = format.parse(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String datetime=format1.format(date);
+        return dateTime;
+
     }
     public String getDateTime1()
     {

@@ -92,7 +92,7 @@ public class List_Attendance extends AppCompatActivity {
         {
             eventId= extras.getString("eventID");
             hasAttendedStudentList = extras.getBoolean("hasAttendedStudentList");
-            ArrayList<Student> list;
+//            ArrayList<Student> list;
 //            for(int i = 0; i< list.size(); i++){
 //                if(attendedStudentSet.contains(list.get(i).getStudentID())){
 //                    list.get(i).isDihoc() == true;
