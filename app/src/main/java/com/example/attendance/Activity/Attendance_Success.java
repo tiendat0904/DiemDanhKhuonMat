@@ -59,7 +59,7 @@ public class Attendance_Success extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createAttendanceDetails(eventId, subjectClassID);
-                Intent intent = new Intent(Attendance_Success.this, MainActivity.class);
+                Intent intent = new Intent(Attendance_Success.this, Main2Activity.class);
                 startActivity(intent);
             }
         });

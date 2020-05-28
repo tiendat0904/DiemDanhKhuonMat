@@ -34,6 +34,8 @@ import com.example.attendance.R;
 import com.example.attendance.API.ShiftService;
 import com.example.attendance.Model.SubjectClass;
 import com.example.attendance.ui.Other.UnsafeOkHttpClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.api.client.util.DateTime;
 
 import java.io.IOException;
@@ -64,6 +66,9 @@ public class Add_Lesson extends AppCompatActivity {
     //    private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
 //    private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
 //    private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
+    GoogleApiClient googleApiClient;
+    private  static final String TAG="SignInActivity";
+    private static final int RC_SIGN_IN =9001;
     private int REQUEST_ID_IMAGE_CAPTURE = 100;
     private int REQUEST_ID_IMAGE_CAPTURE_write = 101;
     APIService mAPIService;
@@ -221,7 +226,7 @@ public class Add_Lesson extends AppCompatActivity {
                         REQUEST_ID_IMAGE_CAPTURE);
             } else {
                 ActivityCompat.requestPermissions(Add_Lesson.this, new String[]{Manifest.permission.READ_CALENDAR},
-                        REQUEST_ID_IMAGE_CAPTURE_write);
+                        REQUEST_ID_IMAGE_CAPTURE);
             }
         }
         if (permission_camera_write != PackageManager.PERMISSION_GRANTED) {
@@ -503,9 +508,9 @@ public class Add_Lesson extends AppCompatActivity {
                 }
                 dateTime=DateTime.parseRfc3339(a);
                 String json1 ="{\n" +
-                        "    \"shiftID\": "+ca+",\n" +
-                        "    \"subjectClassID\":"+lop+",\n" +
-                        "    \"dateTime\": \""+dateTime+"\"\n" +
+                    "    \"shiftID\": "+ca+",\n" +
+                    "    \"subjectClassID\":"+lop+",\n" +
+                    "    \"dateTime\": \""+dateTime+"\"\n" +
                         "}";
                 RequestBody requestBody1 =RequestBody.create(MediaType.parse("application/json"),json1);
                 event_api.Postdata(requestBody1).enqueue(new Callback<Event_Post>() {
@@ -522,6 +527,17 @@ public class Add_Lesson extends AppCompatActivity {
     }
 
     private int getCalendarId() {
+
+
+//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
+//        if (acct != null) {
+//            String personName = acct.getDisplayName();
+//            String personGivenName = acct.getGivenName();
+//            String personFamilyName = acct.getFamilyName();
+//            String personEmail = acct.getEmail();
+//            String personId = acct.getId();
+//            Uri personPhoto = acct.getPhotoUrl();
+//        }
         Cursor cur = null;
         ContentResolver cr = getContentResolver();
         Uri uri = CalendarContract.Calendars.CONTENT_URI;
@@ -538,7 +554,7 @@ public class Add_Lesson extends AppCompatActivity {
       //  String title = "Lớp : " + lop + "\n Ca :" + ca;
     //    ContentValues values = new ContentValues();
         return calID;
-    }
+}
 
     private void get_Shift() {
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();

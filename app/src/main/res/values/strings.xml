@@ -11,8 +11,9 @@
     <string name="menu_Attendance">Điểm Danh</string>
     <string name="menu_Calendar">Lịch</string>
     <string name="menu_statistic">Thống kê</string>
-    <string name="menu_Information">Thông tin</string>
+    <string name="menu_Information">Thông Tin</string>
     <string name="menu_AlterPass">Đổi mật khẩu</string>
+    <string name="login">Đăng nhập| Đăng kí</string>
     <drawable name="grey">#cccccc</drawable>
     <string name="menu_Exit">Thoát</string>
 </resources>
