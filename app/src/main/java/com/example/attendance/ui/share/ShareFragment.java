@@ -8,39 +8,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.example.attendance.Activity.Main2Activity;
 import com.example.attendance.Activity.MainActivity;
-import com.example.attendance.Model.Acount;
+import com.example.attendance.Activity.Login;
 import com.example.attendance.R;
-import com.example.attendance.Sqlife.DBHelper;
-import com.example.attendance.ui.home.HomeFragment;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 public class ShareFragment extends Fragment {
 
-    TextView txt_tk;
+    TextView txt_name,txt_sdt,txt_diachi;
     Button btn_dangxuat;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_share, container, false);
-        txt_tk = root.findViewById(R.id.textView_tentk);
+        txt_name = root.findViewById(R.id.textView_tentk);
+        txt_sdt = root.findViewById(R.id.textView_sdt);
+        txt_diachi = root.findViewById(R.id.textView_diachi);
         btn_dangxuat=root.findViewById(R.id.button_dangxuat);
-        txt_tk.setText(Main2Activity.taikhoan);
+        txt_name.setText(MainActivity.name);
+        txt_sdt.setText(MainActivity.sdt);
+        txt_diachi.setText(MainActivity.diachi);
         btn_dangxuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +49,7 @@ public class ShareFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        Intent intent = new Intent(getActivity(),MainActivity.class);
+                        Intent intent = new Intent(getActivity(), Login.class);
                         startActivity(intent);
                     }
                 });

@@ -27,14 +27,12 @@ import androidx.core.content.ContextCompat;
 import com.example.attendance.API.Event_API;
 import com.example.attendance.API.APIService;
 import com.example.attendance.Common.Const;
-import com.example.attendance.Model.Event_Details;
 import com.example.attendance.Model.Event_Post;
 import com.example.attendance.Model.Shift;
 import com.example.attendance.R;
 import com.example.attendance.API.ShiftService;
 import com.example.attendance.Model.SubjectClass;
 import com.example.attendance.ui.Other.UnsafeOkHttpClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.api.client.util.DateTime;
 
@@ -118,7 +116,7 @@ public class Add_Lesson extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addEvent();
-                Intent intent = new Intent(Add_Lesson.this, MainActivity.class);
+                Intent intent = new Intent(Add_Lesson.this, Login.class);
                 startActivity(intent);
 
             }

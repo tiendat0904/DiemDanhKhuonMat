@@ -36,6 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_dangki" />
 
     <EditText
+        app:passwordToggleEnabled="true"
         android:id="@+id/editText_password1"
         android:gravity="center"
         android:layout_width="300dp"
@@ -49,6 +50,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_acount1" />
     <EditText
+        app:passwordToggleEnabled="true"
         android:id="@+id/editText_password2"
         android:gravity="center"
         android:layout_width="300dp"

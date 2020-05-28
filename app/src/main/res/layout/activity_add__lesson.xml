@@ -44,10 +44,10 @@
             android:id="@+id/spinner_lop"
             android:layout_width="169dp"
             android:layout_height="34dp"
-            android:layout_marginStart="120dp"
+            android:layout_marginStart="108dp"
             android:layout_marginTop="20dp"
-            android:textColor="#000000"
             android:background="#728BE3"
+            android:textColor="#000000"
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -77,30 +77,28 @@
             android:id="@+id/editText_lich"
             android:layout_width="116dp"
             android:layout_height="32dp"
+            android:layout_marginStart="116dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/recyclerview"
             android:ems="10"
+            android:gravity="center"
             android:inputType="textPersonName"
             android:textColor="#000000"
             android:textSize="13dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.682"
             app:layout_constraintStart_toEndOf="@+id/textView15"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.589" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_chonlich"
             android:layout_width="49dp"
-            android:layout_height="28dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/botron_button"
             android:text="Chọn"
             android:textSize="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/editText_lich"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.488" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

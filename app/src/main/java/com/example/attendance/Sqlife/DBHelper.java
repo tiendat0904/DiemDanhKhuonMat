@@ -11,12 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.attendance.Model.Acount;
+import com.example.attendance.Model.AcountDetail;
 
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
-    private static final  String DBName="mydatabase.db";
-    private static final int VERSION = 1;
+    private static final  String DBName="mydatabase2.db";
+    private static final int VERSION = 3;
     private static final  String TABLE_NAME="acount";
     private static final  String TABLE_NAME1="chitiettaikhoan";
     //private static final  String ID="_id";
@@ -45,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String queryTable1 = "CREATE TABLE " + TABLE_NAME1+ " ( " +ID +" interger PRIMARY KEY AUTOINCREMENT NOT NULL, "+NAME+" TEXT NOT NULL, "+SDT+" TEXT NOT NULL, "+DIACHI+" TEXT NOT NULL"+")";
+        String queryTable1 = "CREATE TABLE " + TABLE_NAME1+ " ( " +ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+NAME+" TEXT NOT NULL, "+SDT+" TEXT NOT NULL, "+DIACHI+" TEXT NOT NULL,"+USERNAME+" TEXT NOT NULL"+")";
         String queryTable = "CREATE TABLE " + TABLE_NAME+ " ( " +USERNAME +" TEXT PRIMARY KEY NOT NULL, "+PASSWORD+" TEXT NOT NULL"+")";
         db.execSQL(queryTable1);
         db.execSQL(queryTable);
@@ -69,12 +70,13 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(PASSWORD,password);
         return myDB.insert(TABLE_NAME,null ,values);
     }
-    public long Insert_chitiettaikhoan(String name,String sdt,String diachi) {
+    public long Insert_chitiettaikhoan(String name,String sdt,String diachi,String username) {
         ContentValues values = new ContentValues();
         //values.put(ID,id);
         values.put(NAME, name);
         values.put(SDT, sdt);
         values.put(DIACHI, sdt);
+        values.put(USERNAME,username);
         return myDB.insert(TABLE_NAME1, null, values);
     }
         public long Update(String username,String password)
@@ -99,14 +101,25 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public ArrayList<Acount> getAll()
     {
-        ArrayList<Acount> sinhvien = new ArrayList<Acount>();
+        ArrayList<Acount> listAcount = new ArrayList<Acount>();
         String query = "SELECT * FROM "+ TABLE_NAME;
         Cursor cursor = myDB.rawQuery(query,null);
         while (cursor.moveToNext())
         {
-            sinhvien.add(new Acount(cursor.getString(0),cursor.getString(1)));
+            listAcount.add(new Acount(cursor.getString(0),cursor.getString(1)));
         }
-        return sinhvien;
+        return listAcount;
+    }
+    public ArrayList<AcountDetail> getAll_Detail()
+    {
+        ArrayList<AcountDetail> listAcountdetail = new ArrayList<AcountDetail>();
+        String query = "SELECT * FROM "+ TABLE_NAME1;
+        Cursor cursor = myDB.rawQuery(query,null);
+        while (cursor.moveToNext())
+        {
+            listAcountdetail.add(new AcountDetail(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4)));
+        }
+        return listAcountdetail;
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

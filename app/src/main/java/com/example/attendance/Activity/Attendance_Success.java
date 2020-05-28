@@ -9,20 +9,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.attendance.API.AttendanceDetailsService;
-import com.example.attendance.API.Student_API;
 import com.example.attendance.Common.Const;
 import com.example.attendance.Model.AttendanceDetail;
-import com.example.attendance.Model.Event_Post;
 import com.example.attendance.R;
 import com.example.attendance.Model.Student;
 import com.example.attendance.ui.Other.UnsafeOkHttpClient;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,7 +54,7 @@ public class Attendance_Success extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createAttendanceDetails(eventId, subjectClassID);
-                Intent intent = new Intent(Attendance_Success.this, Main2Activity.class);
+                Intent intent = new Intent(Attendance_Success.this, MainActivity.class);
                 startActivity(intent);
             }
         });
