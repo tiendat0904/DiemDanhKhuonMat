@@ -1,9 +1,14 @@
 package com.example.attendance.Activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -22,8 +27,10 @@ import com.example.attendance.Common.Const;
 import com.example.attendance.Model.Student;
 import com.example.attendance.R;
 import com.example.attendance.ui.Other.UnsafeOkHttpClient;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -36,7 +43,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AttendedStudentList extends AppCompatActivity {
-    Button btn_accecpt;
+    Button btn_re_check_attendance;
     RecyclerView recyclerView;
     AttendedStudentAdapter mStudent;
     androidx.appcompat.widget.Toolbar toolbar_diemdanh;
@@ -47,10 +54,11 @@ public class AttendedStudentList extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
         setContentView(R.layout.activity_attended_student_list);
-        btn_accecpt = (Button)findViewById(R.id.btn_accept);
+        btn_re_check_attendance = (Button)findViewById(R.id.btn_re_check_attendance);
         toolbar_diemdanh = (Toolbar)findViewById(R.id.toolbar_list_diemdanh);
-        recyclerView = (RecyclerView)findViewById(R.id.rev_list_student);
+        recyclerView = (RecyclerView)findViewById(R.id.attended_student_recycle_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
@@ -60,10 +68,37 @@ public class AttendedStudentList extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         getStudent();
+        btn_re_check_attendance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new MaterialAlertDialogBuilder(AttendedStudentList.this)
+                        .setTitle("CẢNH BÁO")
+                        .setMessage("Buổi học này đã được điểm danh, bạn có muốn điểm danh lại buổi học?")
+                        .setIcon(R.drawable.ic_warning_black_24dp)
+                        .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Integer subjectClassID = extras.getInt("subjectClassID");
+                                Intent intent = new Intent(AttendedStudentList.this, RecheckAttendance.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("subjectClassID", subjectClassID);
+                                intent.putExtra("eventID", eventId);
+                                intent.putExtra("hasAttendedStudentList", false);
+                                intent.putExtra("studentList", (Serializable)studentArrList);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+            }
+        });
     }
     private void getStudent() {
-
-
         Bundle extras = getIntent().getExtras();
         if(extras!= null)
         {
@@ -97,15 +132,6 @@ public class AttendedStudentList extends AppCompatActivity {
                 }
                 recyclerView.setAdapter(null);
                 studentArrList = (ArrayList<Student>) response.body();
-//                ArrayList<Student> studentArrayList = new ArrayList<>();
-//                for(int i=0;i<studentList.size();i++)
-//                {
-//                    if(hasAttendedStudentList == true){
-//                        studentArrayList.add(new Student(studentList.get(i).getStudentID(),studentList.get(i).getHoTen(),studentList.get(i).getClassName()));
-//                    }else{
-//
-//                    }
-//                }
                 mStudent = new AttendedStudentAdapter(studentArrList, attendedStudentSet, AttendedStudentList.this);
                 recyclerView.setAdapter(mStudent);
 

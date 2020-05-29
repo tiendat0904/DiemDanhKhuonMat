@@ -13,27 +13,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendance.Model.Student;
 import com.example.attendance.R;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class  AttendedStudentAdapter extends RecyclerView.Adapter<AttendedStudentAdapter.ViewHolder> {
+public class  RecheckAttendanceAdapter extends RecyclerView.Adapter<RecheckAttendanceAdapter.ViewHolder> {
     public static ArrayList<Student> studentList;
     public static HashSet<String> attendedStudentSet;
     Context context;
 
-    public AttendedStudentAdapter(ArrayList<Student> studentList, HashSet<String> attendedStudentSet, Context context) {
+    public RecheckAttendanceAdapter(ArrayList<Student> studentList, Context context) {
         this.studentList = studentList;
-        this.attendedStudentSet = attendedStudentSet;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public AttendedStudentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecheckAttendanceAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View itemView = layoutInflater.inflate(R.layout.item_student,parent,false);
-        return new AttendedStudentAdapter.ViewHolder(itemView);
+        return new RecheckAttendanceAdapter.ViewHolder(itemView);
     }
 
     @Override
@@ -42,16 +40,6 @@ public class  AttendedStudentAdapter extends RecyclerView.Adapter<AttendedStuden
         holder.txt_hoten.setText(studentList.get(position).getHoTen());
         holder.txt_monhoc.setText(studentList.get(position).getClassName());
         holder.checkBox.setChecked(studentList.get(position).isDihoc());
-        holder.checkBox.setEnabled(false);
-        if(attendedStudentSet != null){
-            if(attendedStudentSet.contains(studentList.get(position).getStudentID())){
-                holder.checkBox.setChecked(true);
-            }else{
-                holder.checkBox.setChecked(false);
-            }
-        }
-        holder.checkBox.setChecked(studentList.get(position).isDihoc());
-
     }
 
     @Override
@@ -78,5 +66,8 @@ public class  AttendedStudentAdapter extends RecyclerView.Adapter<AttendedStuden
             });
 
         }
+    }
+    public ArrayList<Student> getStudentList(){
+        return this.studentList;
     }
 }

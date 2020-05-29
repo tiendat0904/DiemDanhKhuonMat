@@ -23,6 +23,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
     ArrayList<Event_Details> dataShops;
     Context context;
     int status;
+    private Integer subjectClassID;
 
     public ShopAdapter(ArrayList<Event_Details> dataShops, Context context) {
         this.dataShops = dataShops;
@@ -42,6 +43,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
         holder.txt_sujectclass.setText(dataShops.get(position).getSubjectClassName());
         holder.txt_datetime.setText(dataShops.get(position).getDateTime1());
         holder.txt_shift.setText(dataShops.get(position).getShiftName());
+        this.subjectClassID = dataShops.get(position).getSubjectClassID();
         this.status = dataShops.get(position).getStatus();
         if(dataShops.get(position).getStatus() == 1){
             holder.txt_status.setText("Đã điểm danh");
@@ -59,8 +61,9 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
                     intent.putExtra("sujectclass", holder.txt_sujectclass.getText().toString());
                     intent.putExtra("datetime", holder.txt_datetime.getText().toString());
                     intent.putExtra("shift", holder.txt_shift.getText().toString());
+
                     intent.putExtra("eventID", dataShops.get(position).getEventID());
-                    intent.putExtra("subjectClassID", dataShops.get(position).getSubjectClassID());
+                    intent.putExtra("subjectClassID", subjectClassID);
                     context.startActivity(intent);
                 }else{
                     Intent intent = new Intent(context, AttendedStudentList.class);
@@ -68,6 +71,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ViewHolder> {
                     intent.putExtra("sujectclass", holder.txt_sujectclass.getText().toString());
                     intent.putExtra("datetime", holder.txt_datetime.getText().toString());
                     intent.putExtra("shift", holder.txt_shift.getText().toString());
+                    intent.putExtra("shiftID", dataShops.get(position).getShiftID());
                     intent.putExtra("eventID", dataShops.get(position).getEventID());
                     intent.putExtra("subjectClassID", dataShops.get(position).getSubjectClassID());
                     context.startActivity(intent);

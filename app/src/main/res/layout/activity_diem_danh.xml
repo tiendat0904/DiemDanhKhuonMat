@@ -6,14 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_diemdanh"
-        app:title="Điểm Danh"
-        android:background="#716562"
-        app:titleTextColor="#f9f6f5"
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolbar_diemdanh"-->
+<!--        app:title="Điểm Danh"-->
+<!--        android:background="#716562"-->
+<!--        app:titleTextColor="#f9f6f5"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="?attr/actionBarSize">-->
+<!--    </androidx.appcompat.widget.Toolbar>-->
+    <com.google.android.material.appbar.AppBarLayout
+
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
-    </androidx.appcompat.widget.Toolbar>
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:liftOnScroll="true">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/check_attendance_tool_bar"
+            app:title="Điểm danh"
+            app:titleTextColor="#f9f6f5"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
     <LinearLayout
         android:background="#F8F8F8"
         android:orientation="vertical"

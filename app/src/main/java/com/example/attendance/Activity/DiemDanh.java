@@ -8,23 +8,30 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.attendance.API.Event_API;
 import com.example.attendance.API.IdentifyAPI;
 import com.example.attendance.Common.Const;
 import com.example.attendance.Model.StudentDTO;
 import com.example.attendance.R;
 import com.example.attendance.ui.Other.UnsafeOkHttpClient;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import org.mortbay.jetty.Main;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -54,6 +61,9 @@ public class DiemDanh extends AppCompatActivity {
     ImageView anh;
     static final int REQUEST_ID_IMAGE_CAPTURE = 100;
     private Context context;
+    private int subjectClassID;
+    private Integer shiftID;
+    private String dateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +78,11 @@ public class DiemDanh extends AppCompatActivity {
             txt_start1.setText(extras.getString("datetime"));
             txt_shift.setText(extras.getString("shift"));
             event_id=extras.getString("eventID");
-
+            subjectClassID = extras.getInt("subjectClassID");
+            shiftID = extras.getInt("shiftID");
+            dateTime = extras.getString("datetime");
         }
+        toolbar_diemdanh = findViewById(R.id.check_attendance_tool_bar);
         setSupportActionBar(toolbar_diemdanh);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar_diemdanh.setNavigationOnClickListener(new View.OnClickListener() {
@@ -81,8 +94,10 @@ public class DiemDanh extends AppCompatActivity {
         btn_diemdanh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                subjectClassID = extras.getInt("subjectClassID");
                 Intent intent = new Intent(DiemDanh.this, List_Attendance.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("subjectClassID", subjectClassID);
                 intent.putExtra("eventID", event_id);
                 intent.putExtra("hasAttendedStudentList", false);
                 startActivity(intent);
@@ -100,7 +115,7 @@ public class DiemDanh extends AppCompatActivity {
         btn_diemdanh_AI = (Button)findViewById(R.id.button_permission_AI);
         btn_diemdanh = (Button)findViewById(R.id.button_permission);
         anh = (ImageView)findViewById(R.id.imageView);
-        toolbar_diemdanh = (Toolbar) findViewById(R.id.toolbar_diemdanh);
+        toolbar_diemdanh = (Toolbar) findViewById(R.id.check_attendance_tool_bar);
         txt_start1 = (TextView)findViewById(R.id.tv_start1);
         txt_classroom1 = (TextView)findViewById(R.id.tv_classroom1);
         txt_shift= (TextView)findViewById(R.id.shift);
@@ -237,5 +252,64 @@ public class DiemDanh extends AppCompatActivity {
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.check_attendance_top_app_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.edit_btn){
+            Intent intent = new Intent(DiemDanh.this, CheckAttendanceEdit.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("eventID", event_id);
+            intent.putExtra("datetime", dateTime);
+            intent.putExtra("shiftID", shiftID);
+            intent.putExtra("subjectClassID", subjectClassID);
+            startActivity(intent);
+        }
+        if(id == R.id.delete_btn){
+            new MaterialAlertDialogBuilder(DiemDanh.this)
+                    .setTitle("CẢNH BÁO")
+                    .setMessage("Bạn chắc chắn có muốn xóa sự kiện này không?")
+                    .setIcon(R.drawable.ic_warning_black_24dp)
+                    .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+                            Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME).client(okHttpClient)
+                                    .addConverterFactory(GsonConverterFactory.create()).build();
+                            Event_API event_api = retrofit.create(Event_API.class);
+                            String json1 ="{\n" +
+                                    "    \"eventID\": "+event_id+"}";
+                            RequestBody requestBody1 =RequestBody.create(MediaType.parse("application/json"),json1);
+                            event_api.Delete(Integer.parseInt(event_id)).enqueue(new Callback<Event_API>() {
+                                @Override
+                                public void onResponse(Call<Event_API> call, Response<Event_API> response) {
+                                    Intent intent = new Intent(DiemDanh.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onFailure(Call<Event_API> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,6 +1,8 @@
 package com.example.attendance.Model;
 
 
+import android.content.Intent;
+
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +14,7 @@ import java.util.Locale;
 public class Event_Details {
     private String subjectClassName;
     private Integer subjectClassID;
+    private Integer shiftID;
     private String dateTime;
 
     public int getStatus() {
@@ -22,7 +25,9 @@ public class Event_Details {
     public Integer getSubjectClassID() {
         return subjectClassID;
     }
-
+    public Integer getShiftID() {
+        return shiftID;
+    }
     private String shiftName;
     private String eventID;
     public String getEventID() {
@@ -35,12 +40,13 @@ public class Event_Details {
 
 
 
-    public Event_Details(String subjectClassName, String dateTime, String shiftName,String eventID, Integer subjectClassID, int status) {
+    public Event_Details(String subjectClassName, String dateTime, String shiftName, Integer shiftID, String eventID, Integer subjectClassID, int status) {
         this.subjectClassName = subjectClassName;
         this.dateTime = dateTime;
         this.shiftName = shiftName;
         this.eventID = eventID;
         this.subjectClassID = subjectClassID;
+        this.shiftID = shiftID;
         this.status = status;
     }
 

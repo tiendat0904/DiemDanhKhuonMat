@@ -15,16 +15,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.attendance.API.AttendanceDetailsService;
 import com.example.attendance.API.Student_API;
+import com.example.attendance.Adapter.AttendedStudentAdapter;
+import com.example.attendance.Adapter.RecheckAttendanceAdapter;
 import com.example.attendance.Common.Const;
-import com.example.attendance.Model.StudentDTO;
-import com.example.attendance.R;
+import com.example.attendance.Model.AttendanceDetail;
 import com.example.attendance.Model.Student;
-import com.example.attendance.Adapter.StudentAdapter;
+import com.example.attendance.R;
 import com.example.attendance.ui.Other.UnsafeOkHttpClient;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -36,25 +37,22 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class List_Attendance extends AppCompatActivity {
-    Button btn_accecpt;
+public class RecheckAttendance extends AppCompatActivity {
+    Button btn_update_attendance;
     RecyclerView recyclerView;
-    StudentAdapter mStudent;
-    boolean hasAttendedStudentList;
-    ArrayList<StudentDTO> attendedStudentList = new ArrayList<StudentDTO>();
-   public static ArrayList<Student> studentArrList=new ArrayList<Student>();
+    RecheckAttendanceAdapter mStudent;
     androidx.appcompat.widget.Toolbar toolbar_diemdanh;
-    HashSet<String> attendedStudentSet;
+    public static ArrayList<Student> studentArrList= new ArrayList<Student>();
     String eventId ="";
-    private int subjectClassID;
-
+    Integer subjectClassID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list__attendance);
-        btn_accecpt = (Button)findViewById(R.id.btn_accept);
+        setContentView(R.layout.activity_recheck_attendance);
+        Bundle extras = getIntent().getExtras();
+        btn_update_attendance = (Button)findViewById(R.id.btn_update_attendance);
         toolbar_diemdanh = (Toolbar)findViewById(R.id.toolbar_list_diemdanh);
-        recyclerView = (RecyclerView)findViewById(R.id.rev_list_student);
+        recyclerView = (RecyclerView)findViewById(R.id.recheck_attendance_recycle_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
@@ -63,31 +61,43 @@ public class List_Attendance extends AppCompatActivity {
         dividerItemDecoration.setDrawable(drawable);
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setAdapter(mStudent);
+        this.subjectClassID = extras.getInt("subjectClassID");
         getStudent();
-        setSupportActionBar(toolbar_diemdanh);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        toolbar_diemdanh.setNavigationOnClickListener(new View.OnClickListener() {
+        btn_update_attendance.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+            public void onClick(View v) {
+                ArrayList<Student> attendedStudentList = new  ArrayList<Student>();
+                studentArrList = mStudent.getStudentList();
+                for(int i = 0; i< studentArrList.size(); i++){
+                    if(studentArrList.get(i).isDihoc() == true){
+                        Student student = studentArrList.get(i);
+                        attendedStudentList.add(student);
+                    }
+                }
+                AttendanceDetail attendanceDetail = new AttendanceDetail();
+                attendanceDetail.setEventID(Integer.parseInt(eventId));
+                attendanceDetail.setSubjectClassID(subjectClassID);
+                attendanceDetail.setStudentList(attendedStudentList);
 
-        btn_accecpt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle extras = getIntent().getExtras();
-                Intent intent = new Intent(List_Attendance.this, List_NoAttendance.class);
-                intent.putExtra("eventID",eventId);
-                intent.putExtra("subjectClassID", subjectClassID);
-                intent.putExtra("hasAttendedStudentList",(Serializable)attendedStudentSet);
-                startActivity(intent);
+                OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+                Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME + "AttendanceDetails/").client(okHttpClient)
+                        .addConverterFactory(GsonConverterFactory.create()).build();
+                AttendanceDetailsService attendanceDetailsService =retrofit.create(AttendanceDetailsService.class);
+                attendanceDetailsService.Update(attendanceDetail.getEventID(), attendanceDetail).enqueue(new Callback() {
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        Intent intent = new Intent(RecheckAttendance.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+
+                    }
+                });
             }
         });
     }
-
     private void getStudent() {
 
 
@@ -95,47 +105,35 @@ public class List_Attendance extends AppCompatActivity {
         if(extras!= null)
         {
             eventId= extras.getString("eventID");
-            hasAttendedStudentList = extras.getBoolean("hasAttendedStudentList");
-            subjectClassID = extras.getInt("subjectClassID");
             ArrayList<Student> list;
 //            for(int i = 0; i< list.size(); i++){
 //                if(attendedStudentSet.contains(list.get(i).getStudentID())){
 //                    list.get(i).isDihoc() == true;
 //                }
 //            }
-            if(hasAttendedStudentList == true){
+
 //                attendedStudentList = (ArrayList<StudentDTO>) extras.getSerializable("studentList");
-                attendedStudentSet = (HashSet<String>) extras.getSerializable("studentSet");
-            }
+
         }
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME+"Events/").client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Const.DOMAIN_NAME + "Students/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create()).build();
         Student_API student_Service =retrofit.create(Student_API.class);
-        Call<List<Student>> call = student_Service.getStudent(eventId);
+        Call<List<Student>> call = student_Service.getAttendedStudentList(eventId);
         call.enqueue(new Callback<List<Student>>() {
             @Override
             public void onResponse(Call<List<Student>> call, Response<List<Student>> response) {
-                if(!response.isSuccessful()){
-                        try {
-                            Log.d("aaa", response.errorBody().string());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                if(!response.isSuccessful()) {
+                    try {
+                        Log.d("aaa", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     return;
                 }
                 recyclerView.setAdapter(null);
                 studentArrList = (ArrayList<Student>) response.body();
-//                ArrayList<Student> studentArrayList = new ArrayList<>();
-//                for(int i=0;i<studentList.size();i++)
-//                {
-//                    if(hasAttendedStudentList == true){
-//                        studentArrayList.add(new Student(studentList.get(i).getStudentID(),studentList.get(i).getHoTen(),studentList.get(i).getClassName()));
-//                    }else{
-//
-//                    }
-//                }
-                mStudent = new StudentAdapter(studentArrList, attendedStudentSet, List_Attendance.this);
+                mStudent = new RecheckAttendanceAdapter(studentArrList, RecheckAttendance.this);
                 recyclerView.setAdapter(mStudent);
 
             }

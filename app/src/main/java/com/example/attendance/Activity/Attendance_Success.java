@@ -59,8 +59,6 @@ public class Attendance_Success extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createAttendanceDetails(eventId, subjectClassID);
-                Intent intent = new Intent(Attendance_Success.this, MainActivity.class);
-                startActivity(intent);
             }
         });
     }
@@ -75,7 +73,6 @@ public class Attendance_Success extends AppCompatActivity {
         }
         AttendanceDetail attendanceDetail = new AttendanceDetail();
         attendanceDetail.setEventID(Integer.parseInt(eventId));
-//        attendanceDetail.setSubjectClassID(Integer.parseInt(subjectClassID));
         attendanceDetail.setSubjectClassID(subjectClassID);
         attendanceDetail.setStudentList(attendedStudentList);
 
@@ -86,7 +83,8 @@ public class Attendance_Success extends AppCompatActivity {
         attendanceDetailsService.Create(attendanceDetail).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
-
+                Intent intent = new Intent(Attendance_Success.this, MainActivity.class);
+                startActivity(intent);
             }
 
             @Override

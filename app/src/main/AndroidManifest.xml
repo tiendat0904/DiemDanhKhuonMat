@@ -2,17 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.attendance">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,17 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        >
-
-        <activity android:name=".Activity.CustomRepeat"></activity>
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.CheckAttendanceEdit"></activity>
+        <activity android:name=".Activity.RecheckAttendance" />
+        <activity android:name=".Activity.re_check_attendance" />
+        <activity android:name=".Activity.CustomRepeat" />
         <activity android:name=".Activity.Add_Lesson" />
-
         <activity android:name=".Activity.Attendance_Success" />
         <activity android:name=".Activity.List_NoAttendance" />
         <activity android:name=".Activity.List_Attendance" />
         <activity android:name=".Activity.DiemDanh" />
-        <activity android:name=".Activity.AttendedStudentList"></activity>
+        <activity android:name=".Activity.AttendedStudentList" />
         <activity android:name=".ui.Other.monthCalendar" />
         <activity android:name=".Adapter.ShopAdapter" />
         <activity android:name=".ui.Other.calendarWeek" />
@@ -45,5 +34,18 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

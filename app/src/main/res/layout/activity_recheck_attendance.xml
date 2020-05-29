@@ -4,22 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8F8"
-    tools:context="com.example.attendance.Activity.List_Attendance">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_list_diemdanh"
+    tools:context="com.example.attendance.Activity.RecheckAttendance">
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#716562"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="DANH SÁCH ĐIỂM DANH"
-        app:titleTextColor="#f9f6f5"></androidx.appcompat.widget.Toolbar>
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/attended_student_recycle_view"
+        android:id="@+id/recheck_attendance_recycle_view"
         android:layout_width="412dp"
         android:layout_height="482dp"
         android:background="#eeeeee"
@@ -31,12 +31,12 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/btn_re_check_attendance"
+        android:id="@+id/btn_update_attendance"
         android:layout_width="148dp"
         android:layout_height="57dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/botron_button"
-        android:text="Điểm danh lại"
+        android:text="Xác nhận điểm danh lại"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

@@ -20,23 +20,23 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview2"
-        android:layout_width="413dp"
-        android:layout_height="325dp"
+        android:layout_width="414dp"
+        android:layout_height="576dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_accept_noattendance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_list_khongdiemdanh" />
 
     <Button
-        android:textColor="#000000"
         android:id="@+id/btn_accept_noattendance"
         android:layout_width="161dp"
         android:layout_height="68dp"
-        android:layout_marginStart="140dp"
-        android:layout_marginLeft="140dp"
-        android:layout_marginBottom="60dp"
-        android:text="Xác nhận"
+        android:layout_marginBottom="28dp"
         android:background="@drawable/botron_button"
+        android:text="Xác nhận"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

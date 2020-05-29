@@ -21,7 +21,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rev_list_student"
         android:layout_width="418dp"
-        android:layout_height="592dp"
+        android:layout_height="443dp"
         android:background="#eeeeee"
         app:layout_constraintBottom_toTopOf="@+id/btn_accept"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,10 +34,11 @@
         android:id="@+id/btn_accept"
         android:layout_width="148dp"
         android:layout_height="57dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="68dp"
         android:background="@drawable/botron_button"
         android:text="Xác nhận"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

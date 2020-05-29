@@ -76,7 +76,6 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), Add_Lesson.class);
                 startActivity(intent);
-
             }
         });
         return root;
@@ -117,6 +116,7 @@ public class HomeFragment extends Fragment {
                                     event_details1.add(new Event_Details(event_details.get(j).getSubjectClassName(),
                                             event_details.get(j).getDateTime(),
                                             event_details.get(j).getShiftName(),
+                                            event_details.get(j).getShiftID(),
                                             event_details.get(j).getEventID(),
                                             event_details.get(j).getSubjectClassID(),
                                             event_details.get(j).getStatus()));
